@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "pelco-mobile",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

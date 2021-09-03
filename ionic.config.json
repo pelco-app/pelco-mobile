@@ -1,0 +1,7 @@
+{
+  "name": "pelco-mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
