@@ -67,5 +67,5 @@
   "devDependencies": {
     "@capacitor/cli": "3.2.2"
   },
-  "description": "An Ionic project"
+  "description": "Reminder App for PELCO 1"
 }
