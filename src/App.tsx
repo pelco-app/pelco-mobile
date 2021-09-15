@@ -10,10 +10,8 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { ellipse, square, triangle, person } from "ionicons/icons";
-import Dashboard from "./pages/Dashboard";
-import Bills from "./pages/Bills";
-import Schedules from "./pages/Schedules";
-import Account from "./pages/Account";
+import Welcome from "pages/Welcome";
+import MainTabs from "components/MainTabs";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -33,49 +31,19 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { useState, useEffect } from "react";
+import { SplashScreen } from "@capacitor/splash-screen";
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route exact path="/bills">
-            <Bills />
-          </Route>
-          <Route path="/schedules">
-            <Schedules />
-          </Route>
-          <Route path="/account">
-            <Account />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/dashboard" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="dashboard" href="/dashboard">
-            <IonIcon icon={triangle} />
-            <IonLabel>Dashboard</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="bills" href="/bills">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Bills</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="schedules" href="/schedules">
-            <IonIcon icon={square} />
-            <IonLabel>Schedules</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="account" href="/account">
-            <IonIcon icon={person} />
-            <IonLabel>Account</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  SplashScreen.show();
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <MainTabs />
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

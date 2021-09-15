@@ -2,12 +2,43 @@
   "name": "pelco-mobile",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "build:android": "ionic cap build android",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "resources": "cordova-res android --skip-config --copy"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "@capacitor/app": "1.0.3",
+    "@capacitor/camera": "^1.0.5",
     "@capacitor/core": "3.2.2",
+    "@capacitor/filesystem": "^1.0.3",
     "@capacitor/haptics": "1.0.3",
     "@capacitor/keyboard": "1.0.3",
+    "@capacitor/splash-screen": "^1.1.2",
     "@capacitor/status-bar": "1.0.3",
+    "@capacitor/storage": "^1.1.0",
+    "@ionic/pwa-elements": "^3.0.2",
     "@ionic/react": "^5.5.0",
     "@ionic/react-router": "^5.5.0",
     "@testing-library/jest-dom": "^5.11.9",
@@ -40,32 +71,11 @@
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
-    "@capacitor/cli": "3.2.2"
+    "@capacitor/android": "3.2.3",
+    "@capacitor/cli": "3.2.2",
+    "@capacitor/ios": "3.2.2",
+    "cordova-res": "^0.15.3"
   },
   "description": "Reminder App for PELCO 1"
 }

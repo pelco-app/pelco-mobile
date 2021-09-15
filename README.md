@@ -32,3 +32,11 @@ npm install
 ```
 npm start
 ```
+
+## Deploying
+
+```
+ionic build
+ionic cap add android
+ionic cap build android
+```

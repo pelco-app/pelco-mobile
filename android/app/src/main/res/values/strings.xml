@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PELCO1 Reminder</string>
+    <string name="title_activity_main">PELCO1 Reminder</string>
+    <string name="package_name">com.pelco1.app</string>
+    <string name="custom_url_scheme">com.pelco1.app</string>
+</resources>
