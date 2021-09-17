@@ -5,27 +5,25 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
-import "./Account.css";
+import { ExploreContainer } from "components";
+import "./Schedules.scss";
 
-const Account: React.FC = () => {
+export const Schedules: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Account</IonTitle>
+          <IonTitle>Schedules</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Account</IonTitle>
+            <IonTitle size="small">Schedules</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Account page" />
+        <ExploreContainer name="Schedules page" />
       </IonContent>
     </IonPage>
   );
 };
-
-export default Account;

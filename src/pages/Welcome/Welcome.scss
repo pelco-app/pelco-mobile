@@ -1,0 +1,46 @@
+.welcome-screen {
+  ion-slides {
+    height: calc(100vh - 70px);
+
+    .swiper-slide {
+      overflow-y: auto;
+
+      .slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0;
+        height: 100%;
+        overflow: auto;
+      }
+
+      img {
+        max-height: 50%;
+        max-width: 300px;
+        pointer-events: none;
+      }
+
+      p {
+        padding: 0 40px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ion-color-step-600, #60646b);
+
+        b {
+          color: var(--ion-text-color, #000000);
+        }
+      }
+
+      b {
+        font-weight: 500;
+      }
+    }
+
+    .swiper-pagination {
+      bottom: 0;
+      background: #ffffff;
+      padding: 5px 0;
+    }
+  }
+}

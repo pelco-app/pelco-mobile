@@ -5,10 +5,10 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
-import "./Bills.css";
+import { ExploreContainer } from "components";
+import "./Bills.scss";
 
-const Bills: React.FC = () => {
+export const Bills: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -19,7 +19,7 @@ const Bills: React.FC = () => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Bills</IonTitle>
+            <IonTitle size="small">Bills</IonTitle>
           </IonToolbar>
         </IonHeader>
         <ExploreContainer name="Bills page" />
@@ -27,5 +27,3 @@ const Bills: React.FC = () => {
     </IonPage>
   );
 };
-
-export default Bills;

@@ -8,14 +8,15 @@ import {
 } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
 import { triangle, ellipse, square, person } from "ionicons/icons";
-import Dashboard from "pages/Dashboard";
-import Bills from "pages/Bills";
-import Schedules from "pages/Schedules";
-import Account from "pages/Account";
+import { useContext, AppContext } from "State";
+import { Account, Bills, Dashboard, Schedules } from "pages";
+import "./MainTabs.scss";
 
 interface Props {}
 
-const MainTabs: React.FC<Props> = () => {
+export const MainTabs: React.FC<Props> = () => {
+  const { state } = useContext(AppContext);
+
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -55,5 +56,3 @@ const MainTabs: React.FC<Props> = () => {
     </IonTabs>
   );
 };
-
-export default MainTabs;
