@@ -1,5 +1,5 @@
 .login-screen {
-  .logo-container {
+  .logo {
     display: flex;
 
     img {
@@ -8,48 +8,14 @@
     }
   }
 
-  .login-card {
+  .card {
     height: calc(100vh - 70px);
     display: flex;
     justify-content: center;
     flex-direction: column;
 
-    .input-container {
-      justify-content: space-between;
-      margin: 10px 0 10px;
-
-      .input {
-        width: 1.8rem !important;
-        height: 1.8rem;
-        margin: 0 2px;
-        font-size: 1rem;
-        border-radius: 4px;
-        border-width: 1px;
-        border-style: dashed;
-        border-color: var(--ion-item-color, #737373);
-        outline: none;
-        transition: 0.3s all linear;
-
-        &.focus {
-          border-style: solid;
-          border-color: var(--ion-color-primary);
-        }
-
-        &.error {
-          border-style: solid;
-          border-color: var(--ion-color-danger);
-        }
-
-        &.disabled {
-          opacity: 0.5;
-          pointer-events: none;
-        }
-
-        &:not([value=""]):not(.error) {
-          border-style: solid;
-          border-color: var(--ion-color-success);
-        }
-      }
+    &-content {
+      padding: 20px 10px;
     }
   }
 }

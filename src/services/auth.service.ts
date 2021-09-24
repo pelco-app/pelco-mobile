@@ -1,34 +1,19 @@
-import { rejects } from "assert";
-import http from "axios";
+import http from "utils/http";
 
-const login = (data: any) => {
+const mockRequest = (data: any, success: boolean = true) => {
   return new Promise((resolve, reject) =>
-    setTimeout(() => {
-      if (data.accountNumber === "00000000") {
-        resolve(data);
-      } else {
-        reject("Invalid account number.");
-      }
-    }, 3000)
+    setTimeout(() => (success ? resolve(data) : reject(data)), 3000)
   );
-  // return http.post("/login", data).then((res) => {
-  //   localStorage.setItem("api_token", res.data.token);
-
-  //   return res.data;
-  // });
 };
 
-const register = (data: any) => {
-  return http.post("/register", data).then((res) => {
-    return res.data;
-  });
-};
-
-const logout = () => {
-  return http.get("/logout").then((res) => {
-    localStorage.removeItem("api_token");
-
-    return res.data;
+const check = (data: any) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data: response } = await http.post("/auth/check", data);
+      resolve(response);
+    } catch (error: any) {
+      reject(error);
+    }
   });
 };
 
@@ -38,9 +23,36 @@ const current = () => {
   });
 };
 
+const verify = (data: any) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data: response } = await http.post("/auth/verify", data);
+      resolve(response);
+    } catch (error: any) {
+      reject(error);
+    }
+  });
+};
+
+const logout = () => {
+  return http.get("/logout").then((res) => {
+    return res.data;
+  });
+};
+
+const register = (data: any) => {
+  return mockRequest(data).then((res) => res);
+};
+
+const resend = (data: any) => {
+  return mockRequest(data).then((res) => res);
+};
+
 export const authService = {
-  login,
+  check,
+  current,
+  verify,
   logout,
   register,
-  current,
+  resend,
 };

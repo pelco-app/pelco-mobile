@@ -51,6 +51,11 @@ export const combineStateReducers = (stateReducers: IStateReducers) => {
         newState[key] = stateReducers[key].reducer(state[key], action);
       }
     } else {
+      for (const key in action.states) {
+        if ("loading" in action.states[key]) {
+          action.states[key].loading = false;
+        }
+      }
       newState = { ...action.states };
     }
     return newState;

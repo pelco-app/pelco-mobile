@@ -21,18 +21,10 @@ export const MainTabs: React.FC<Props> = () => {
     <IonTabs>
       <IonRouterOutlet>
         <Redirect exact path="/" to="/dashboard" />
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route exact path="/bills">
-          <Bills />
-        </Route>
-        <Route path="/schedules">
-          <Schedules />
-        </Route>
-        <Route path="/account">
-          <Account />
-        </Route>
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/bills" component={Bills} />
+        <Route exact path="/schedules" component={Schedules} />
+        <Route exact path="/account" component={Account} />
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom">

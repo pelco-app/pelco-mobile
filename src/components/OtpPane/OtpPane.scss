@@ -1,0 +1,15 @@
+.otp-pane-container {
+  padding: 0 20px;
+
+  .header {
+    h4 {
+      color: var(--ion-color-primary);
+    }
+
+    p {
+      margin-top: 0;
+      color: var(--ion-color-medium);
+      font-size: small;
+    }
+  }
+}

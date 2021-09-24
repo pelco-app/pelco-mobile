@@ -9,25 +9,50 @@ const initialState: any = {
 
 const reducer = (state: any, action: any) => {
   switch (action.type) {
-    case authTypes.TOGGLE_WELCOME_SCREEN:
+    case authTypes.WELCOME_SCREEN:
       return { ...state, isFirstStart: action.show };
+
     case authTypes.RESET_STATE_KEY:
       return { ...state, [action.key]: initialState[action.key] };
+
     case authTypes.LOGIN_REQUEST:
+    case authTypes.CHECK_REQUEST:
+    case authTypes.OTP_REQUEST:
       return { ...state, loading: true };
+
+    case authTypes.CHECK_SUCCESS:
+      const { isRegistered, isMobileVerified, isReset } = action;
+      return {
+        ...state,
+        check: { isRegistered, isMobileVerified, isReset },
+        loading: false,
+      };
+
+    case authTypes.OTP_SUCCESS:
+      const { message } = action;
+      return {
+        ...state,
+        message,
+        loading: false,
+      };
+
+    case authTypes.CHECK_FAILURE:
+    case authTypes.LOGIN_FAILURE:
+    case authTypes.OTP_FAILURE:
+      return {
+        ...state,
+        error: action.message,
+        loading: false,
+      };
+
     case authTypes.LOGIN_SUCCESS:
       return {
         ...state,
         isLoggedIn: true,
         loading: false,
-        user: { accountNumber: action.accountNumber },
+        user: { token: action.token },
       };
-    case authTypes.LOGIN_FAILURE:
-      return {
-        ...state,
-        error: action.error,
-        loading: false,
-      };
+
     case authTypes.LOGOUT:
       return { ...state, ...initialState, isFirstStart: false };
   }

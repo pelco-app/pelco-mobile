@@ -15,17 +15,13 @@ export const Dashboard: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Dashboard</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="small">Dashboard</IonTitle>
           </IonToolbar>
         </IonHeader>
+
         <ExploreContainer
           name={`Account number: ${state.auth.user?.accountNumber}`}
         />

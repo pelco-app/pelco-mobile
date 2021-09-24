@@ -1,106 +1,134 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonContent,
   IonButton,
-  IonSpinner,
   IonToolbar,
   IonPage,
   IonButtons,
   IonIcon,
   IonCard,
   IonCardContent,
-  IonInput,
-  IonItem,
   IonLabel,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   useIonToast,
+  useIonLoading,
 } from "@ionic/react";
-import { chevronBackOutline, compassSharp } from "ionicons/icons";
-import { useContext, AppContext } from "State";
+import { chevronBackOutline } from "ionicons/icons";
+import { AppContext, useContext } from "State";
 import { authActions } from "actions";
-import OtpInput from "react-otp-input";
+import { Button, OtpInput, OtpPane, RegistrationPane } from "components";
 import "./Login.scss";
 
 interface Props {}
 
 export const Login: React.FC<Props> = () => {
+  const maxInput: number = 8;
   const { state, dispatch } = useContext(AppContext);
+  const { auth } = state;
   const [accountNumber, setAccountNumber] = useState<any>("");
-  const [isValidInput, setIsValidInput] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
+  const [isValidInput, setIsValidInput] = useState<boolean>(false);
+  const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [presentLoading, dismissLoading] = useIonLoading();
   const [presentToast, dismissToast] = useIonToast();
-
+  const [showRegistration, setShowRegistration] = useState<boolean>(false);
   const showWelcomeScreen = () => dispatch(authActions.welcome(true));
-  const proceedLogin = () => {
+
+  const proceedCheck = (reset?: boolean) => {
     dismissToast();
-    dispatch(authActions.login({ accountNumber }));
+    presentLoading({ message: "Please wait..." });
+    dispatch(authActions.check({ accountNumber, reset }));
   };
 
   useEffect(() => {
     setHasError(false);
-    setIsValidInput(accountNumber.length === 8);
+    setIsValidInput(accountNumber.length === maxInput);
   }, [accountNumber]);
 
   useEffect(() => {
-    if (state.auth.error) {
-      setHasError(true);
-      presentToast({
-        buttons: [{ text: "Hide", handler: () => dismissToast() }],
-        duration: 3000,
-        message: state.auth.error,
-      });
-      dispatch(authActions.reset("error"));
+    if (auth.check) {
+      const { isRegistered, isMobileVerified, isReset } = auth.check;
+
+      if (!isRegistered || !isMobileVerified || isReset) {
+        setShowRegistration(true);
+      } else if (isRegistered && isMobileVerified) {
+        setShowOtp(true);
+      }
+
+      dispatch(authActions.reset("check"));
+      dismissLoading();
     }
-  }, [state.auth.error]);
+  }, [auth.check]);
+
+  useEffect(() => {
+    if (auth.error) {
+      !showOtp && !showRegistration && setHasError(true);
+      presentToast({ duration: 3000, message: auth.error, color: "dark" });
+      dispatch(authActions.reset("error"));
+    } else if (auth.message) {
+      presentToast({ duration: 3000, message: auth.message, color: "dark" });
+      dispatch(authActions.reset("message"));
+    }
+    dismissLoading();
+  }, [auth.error, auth.message]);
 
   return (
     <IonPage>
       <IonContent fullscreen className="login-screen">
         <IonToolbar>
           <IonButtons slot="start">
-            <IonIcon
-              slot="icon-only"
-              onClick={showWelcomeScreen}
-              icon={chevronBackOutline}
-            />
-            <IonButton onClick={showWelcomeScreen} />
+            <IonButton onClick={showWelcomeScreen}>
+              <IonIcon slot="icon-only" icon={chevronBackOutline} /> Welcome
+            </IonButton>
           </IonButtons>
         </IonToolbar>
 
-        <div className="login-card">
+        <div className="card">
           <IonCard>
-            <div className="logo-container">
+            <div className="logo">
               <img src="assets/icons/icon.png" />
             </div>
-            <IonCardContent>
+            <IonCardContent className="card-content">
               <IonLabel>Account Number</IonLabel>
               <OtpInput
-                containerStyle="input-container"
-                disabledStyle="disabled"
-                inputStyle="input"
-                errorStyle="error"
-                focusStyle="focus"
-                isInputNum={true}
-                isDisabled={state.auth.loading}
                 hasErrored={hasError}
-                numInputs={8}
+                isDisabled={auth.loading}
+                isInputNum
+                numInputs={maxInput}
                 onChange={(value: number) => setAccountNumber(value)}
                 separator={<span></span>}
-                shouldAutoFocus={true}
+                shouldAutoFocus
                 value={accountNumber}
               />
-              <IonButton
+              <Button
+                disabled={auth.loading || !isValidInput || hasError}
                 expand="block"
-                disabled={state.auth.loading || !isValidInput || hasError}
-                onClick={proceedLogin}
-              >
-                {state.auth.loading ? <IonSpinner name="crescent" /> : "Login"}
-              </IonButton>
+                label="Continue"
+                onClick={() => proceedCheck()}
+              />
+              <Button
+                color="danger"
+                disabled={auth.loading || !isValidInput || hasError}
+                expand="block"
+                fill="outline"
+                label="Reset account mobile number"
+                onClick={() => proceedCheck(true)}
+                size="small"
+              />
             </IonCardContent>
           </IonCard>
         </div>
+
+        <OtpPane
+          accountNumber={accountNumber}
+          showPane={showOtp}
+          setShowPane={setShowOtp}
+        />
+
+        <RegistrationPane
+          accountNumber={accountNumber}
+          showRegistrationPane={showRegistration}
+          setShowRegistrationPane={setShowRegistration}
+        />
       </IonContent>
     </IonPage>
   );

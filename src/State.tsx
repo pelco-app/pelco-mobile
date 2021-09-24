@@ -6,8 +6,8 @@ import {
   setPersist,
   useReducerThunk,
 } from "utils/context";
-import { useIsMount } from "utils/use-is-mount";
-import { auth } from "reducers";
+import { useIsMounted } from "utils/useIsMounted";
+import { auth, device } from "reducers";
 
 export interface IStateDispatch {
   state: any;
@@ -15,15 +15,13 @@ export interface IStateDispatch {
 }
 
 const AppContext = createContext({} as IStateDispatch);
-const reducersList = {
-  auth,
-};
+const reducersList = { auth, device };
 const { initialStates, reducers } = combineStateReducers(reducersList);
 const loggerReducer =
   process.env.REACT_APP_ENV !== "development" ? reducers : logger(reducers);
 
 const AppContextProvider = (props: any) => {
-  const isMounted = useIsMount();
+  const isMounted = useIsMounted();
   const [state, dispatch] = useReducerThunk(loggerReducer, initialStates);
   const value = { state, dispatch };
 
