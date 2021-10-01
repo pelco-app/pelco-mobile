@@ -25,12 +25,13 @@ export const Login: React.FC<Props> = () => {
   const { state, dispatch } = useContext(AppContext);
   const { auth } = state;
   const [accountNumber, setAccountNumber] = useState<any>("");
+  const [mobileNumber, setMobileNumber] = useState<any>("");
   const [hasError, setHasError] = useState<boolean>(false);
   const [isValidInput, setIsValidInput] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [showRegistration, setShowRegistration] = useState<boolean>(false);
   const [presentLoading, dismissLoading] = useIonLoading();
   const [presentToast, dismissToast] = useIonToast();
-  const [showRegistration, setShowRegistration] = useState<boolean>(false);
   const showWelcomeScreen = () => dispatch(authActions.welcome(true));
 
   const proceedCheck = (reset?: boolean) => {
@@ -59,6 +60,13 @@ export const Login: React.FC<Props> = () => {
     }
   }, [auth.check]);
 
+  useEffect((): any => {
+    if (auth.isRegistrationSuccess) {
+      setShowOtp(true);
+      dispatch(authActions.reset("isRegistrationSuccess"));
+    }
+  }, [auth.isRegistrationSuccess]);
+
   useEffect(() => {
     if (auth.error) {
       !showOtp && !showRegistration && setHasError(true);
@@ -70,6 +78,13 @@ export const Login: React.FC<Props> = () => {
     }
     dismissLoading();
   }, [auth.error, auth.message]);
+
+  useEffect((): any => {
+    !auth.loading && setTimeout(() => dismissLoading(), 100);
+    return () => {
+      dismissLoading();
+    };
+  }, [auth.loading]);
 
   return (
     <IonPage>
@@ -118,17 +133,15 @@ export const Login: React.FC<Props> = () => {
           </IonCard>
         </div>
 
-        <OtpPane
-          accountNumber={accountNumber}
-          showPane={showOtp}
-          setShowPane={setShowOtp}
-        />
-
         <RegistrationPane
           accountNumber={accountNumber}
-          showRegistrationPane={showRegistration}
-          setShowRegistrationPane={setShowRegistration}
+          mobileNumber={mobileNumber}
+          setMobileNumber={setMobileNumber}
+          setShowPane={setShowRegistration}
+          showPane={showRegistration}
         />
+
+        <OtpPane accountNumber={accountNumber} setShowPane={setShowOtp} showPane={showOtp} />
       </IonContent>
     </IonPage>
   );

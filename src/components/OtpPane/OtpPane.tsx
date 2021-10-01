@@ -8,19 +8,16 @@ import { useInterval } from "usehooks-ts";
 import "./OtpPane.scss";
 
 interface Props {
-  accountNumber: number;
-  showPane: boolean;
+  accountNumber?: number;
+  buttonLabel?: string;
+  mobileNumber?: string;
   setShowPane: (state: boolean) => void;
+  showPane: boolean;
 }
 
-const maxInput: number = 6;
-const resendCooldown: number = 60;
-
-export const OtpPane: React.FC<Props> = ({
-  accountNumber,
-  showPane,
-  setShowPane,
-}) => {
+export const OtpPane: React.FC<Props> = ({ accountNumber, buttonLabel, mobileNumber, setShowPane, showPane }) => {
+  const maxInput: number = 6;
+  const resendCooldown: number = 60;
   const { state, dispatch } = useContext(AppContext);
   const { auth, device } = state;
   const [cooldown, setCooldown] = useState<number>(resendCooldown);
@@ -37,9 +34,8 @@ export const OtpPane: React.FC<Props> = ({
     handleKeyboard: false,
     onDidDismiss() {
       drawer?.destroy({ animate: true });
-      setShowPane(false);
       setPin("");
-      setDrawer(null);
+      setShowPane(false);
     },
   };
 
@@ -49,24 +45,27 @@ export const OtpPane: React.FC<Props> = ({
     if (resend) {
       setCanResend(false);
       setCooldown(resendCooldown);
-      dispatch(authActions.resend({ accountNumber }));
+      if (accountNumber) {
+        dispatch(authActions.resend({ accountNumber }));
+      } else {
+        dispatch(authActions.updateResend({ mobileNumber }));
+      }
     } else {
-      dispatch(
-        authActions.verify({ accountNumber, pin, deviceName: device.name })
-      );
+      if (accountNumber) {
+        dispatch(authActions.verify({ accountNumber, pin, deviceName: device.name }));
+      } else {
+        dispatch(authActions.updateVerify({ mobileNumber, pin }));
+      }
     }
   };
 
-  useInterval(
-    () => (cooldown === 1 ? setCanResend(true) : setCooldown(cooldown - 1)),
-    !canResend ? 1000 : null
-  );
+  useInterval(() => (cooldown === 1 ? setCanResend(true) : setCooldown(cooldown - 1)), !canResend ? 1000 : null);
 
   useEffect(() => setIsValidInput(pin.length === maxInput), [pin]);
+
   useEffect((): any => {
-    !auth.loading && dismissLoading();
+    !auth.loading && setTimeout(() => dismissLoading(), 100);
     return () => {
-      drawer?.destroy({ animate: true });
       dismissLoading();
     };
   }, [auth.loading]);
@@ -77,11 +76,16 @@ export const OtpPane: React.FC<Props> = ({
   }, [auth.error]);
 
   useEffect(() => {
-    setDrawer(
-      !!paneRef?.current && new CupertinoPane(paneRef.current, settings)
-    );
-    if (drawer && showPane) drawer.present({ animate: true });
-  }, [paneRef, showPane]);
+    setDrawer(!!paneRef?.current ? new CupertinoPane(paneRef.current, settings) : null);
+  }, [paneRef]);
+
+  useEffect(() => {
+    if (showPane) {
+      drawer?.present({ animate: true });
+    } else if (drawer?.rendered) {
+      drawer?.destroy({ animate: true });
+    }
+  }, [drawer, showPane]);
 
   return (
     <IonContent ref={paneRef}>
@@ -105,7 +109,7 @@ export const OtpPane: React.FC<Props> = ({
           <Button
             disabled={auth.loading || !isValidInput}
             expand="block"
-            label="Login"
+            label={buttonLabel || "Login"}
             onClick={() => proceed()}
           />
           <Button

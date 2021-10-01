@@ -20,6 +20,14 @@ export const authTypes = {
   LOGIN_SUCCESS: "USER_LOGIN_SUCCESS",
   LOGIN_FAILURE: "USER_LOGIN_FAILURE",
 
+  UPDATE_REQUEST: "USER_UPDATE_REQUEST",
+  UPDATE_SUCCESS: "USER_UPDATE_SUCCESS",
+  UPDATE_FAILURE: "USER_UPDATE_FAILURE",
+
+  UPDATE_VERIFY_REQUEST: "USER_UPDATE_VERIFY_REQUEST",
+  UPDATE_VERIFY_SUCCESS: "USER_UPDATE_VERIFY_SUCCESS",
+  UPDATE_VERIFY_FAILURE: "USER_UPDATE_VERIFY_FAILURE",
+
   LOGOUT: "USER_LOGOUT",
 
   GET_USER: "USER_GET_CURRENT",
@@ -60,6 +68,66 @@ const verify = (data: any) => {
 
 const logout = () => ({ type: authTypes.LOGOUT });
 
+const register = (data: any) => {
+  const request = (data: any) => ({ type: authTypes.REGISTER_REQUEST, ...data });
+  const success = (data: any) => ({ type: authTypes.REGISTER_SUCCESS, ...data });
+  const failure = (error: any) => ({ type: authTypes.REGISTER_FAILURE, ...error });
+
+  return (dispatch: Function) => {
+    dispatch(request(data));
+
+    return authService
+      .register(data)
+      .then((response) => dispatch(success(response)))
+      .catch((error) => dispatch(failure(error)));
+  };
+};
+
+const update = (data: any) => {
+  const request = (data: any) => ({ type: authTypes.UPDATE_REQUEST, ...data });
+  const success = (data: any) => ({ type: authTypes.UPDATE_SUCCESS, ...data });
+  const failure = (error: any) => ({ type: authTypes.UPDATE_FAILURE, ...error });
+
+  return (dispatch: Function) => {
+    dispatch(request(data));
+
+    return authService
+      .update(data)
+      .then((response) => dispatch(success(response)))
+      .catch((error) => dispatch(failure(error)));
+  };
+};
+
+const updateVerify = (data: any) => {
+  const request = (data: any) => ({ type: authTypes.UPDATE_VERIFY_REQUEST, ...data });
+  const success = (data: any) => ({ type: authTypes.UPDATE_VERIFY_SUCCESS, ...data });
+  const failure = (error: any) => ({ type: authTypes.UPDATE_VERIFY_FAILURE, ...error });
+
+  return (dispatch: Function) => {
+    dispatch(request(data));
+
+    return authService
+      .updateVerify(data)
+      .then((response) => dispatch(success(response)))
+      .catch((error) => dispatch(failure(error)));
+  };
+};
+
+const updateResend = (data: any) => {
+  const request = (data: any) => ({ type: authTypes.OTP_REQUEST, ...data });
+  const success = (data: any) => ({ type: authTypes.OTP_SUCCESS, ...data });
+  const failure = (error: any) => ({ type: authTypes.OTP_FAILURE, ...error });
+
+  return (dispatch: Function) => {
+    dispatch(request(data));
+
+    return authService
+      .updateResend({ ...data, resend: true })
+      .then((response) => dispatch(success(response)))
+      .catch((error) => dispatch(failure(error)));
+  };
+};
+
 const resend = (data: any) => {
   const request = (data: any) => ({ type: authTypes.OTP_REQUEST, ...data });
   const success = (data: any) => ({ type: authTypes.OTP_SUCCESS, ...data });
@@ -73,7 +141,6 @@ const resend = (data: any) => {
       .then((response) => dispatch(success(response)))
       .catch((error) => dispatch(failure(error)));
   };
-  return () => authService.resend(data);
 };
 
 const reset = (key: string) => ({ type: authTypes.RESET_STATE_KEY, key });
@@ -83,8 +150,12 @@ const welcome = (show: boolean) => ({ type: authTypes.WELCOME_SCREEN, show });
 export const authActions = {
   check,
   logout,
+  register,
   resend,
   reset,
+  update,
+  updateResend,
+  updateVerify,
   verify,
   welcome,
 };

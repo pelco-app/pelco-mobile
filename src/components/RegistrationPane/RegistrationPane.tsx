@@ -1,131 +1,133 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { IonContent, useIonToast } from "@ionic/react";
+import { IonContent, IonInput, IonItem, IonLabel, useIonLoading, useIonToast } from "@ionic/react";
 import { CupertinoPane } from "cupertino-pane";
-import { Button, OtpInput } from "components";
+import { Button } from "components";
 import { AppContext } from "State";
 import { authActions } from "actions";
-import { useInterval } from "usehooks-ts";
 import "./RegistrationPane.scss";
 
 interface Props {
-  accountNumber: number;
-  showRegistrationPane: boolean;
-  setShowRegistrationPane: (state: boolean) => void;
+  accountNumber?: number;
+  buttonLabel?: string;
+  header?: string;
+  mobileNumber: string;
+  setMobileNumber: (mobileNumber: any) => void;
+  setShowPane: (state: boolean) => void;
+  showPane: boolean;
 }
 
 export const RegistrationPane: React.FC<Props> = ({
   accountNumber,
-  showRegistrationPane,
-  setShowRegistrationPane,
+  buttonLabel,
+  header,
+  mobileNumber,
+  setMobileNumber,
+  setShowPane,
+  showPane,
 }) => {
-  const maxInput: number = 6;
-  const resendCooldown: number = 60;
-  const [cooldown, setCooldown] = useState<number>(resendCooldown);
-  const [canResend, setCanResend] = useState<boolean>(true);
+  const maxInput = { billingReference: 11, mobileNumber: 12 };
   const { state, dispatch } = useContext(AppContext);
   const { auth } = state;
-  const [otpCode, setOtpCode] = useState<any>("");
-  const [drawer, setDrawer] = useState<any>();
+  const [billingReference, setBillingReference] = useState<any>("");
+  const [drawer, setDrawer] = useState<any>(null);
   const [isValidInput, setIsValidInput] = useState<boolean>(false);
-  const [presentToast, dismissToast] = useIonToast();
+  const [presentLoading, dismissLoading] = useIonLoading();
+  const [, dismissToast] = useIonToast();
   const paneRef = useRef<any>(null);
   const settings = {
     backdrop: true,
     darkMode: true,
     handleKeyboard: false,
-    onDidDismiss: () => {
-      setShowRegistrationPane(false);
-      setOtpCode("");
+    onDidDismiss() {
       drawer?.destroy({ animate: true });
+      setBillingReference("");
+      setMobileNumber("");
+      setShowPane(false);
     },
   };
 
-  const proceedLogin = () => {
+  const proceed = () => {
     dismissToast();
-    dispatch(authActions.verify({ accountNumber, otpCode }));
-  };
-
-  const resendOtp = () => {
-    dismissToast();
-    setCanResend(false);
-    setCooldown(resendCooldown);
-    presentToast({
-      duration: 3000,
-      message: "Your OTP will be resend to your mobile number.",
-      color: "dark",
-    });
-    dispatch(authActions.resend({ accountNumber }));
-  };
-
-  useInterval(
-    () => {
-      if (cooldown === 1) {
-        setCanResend(true);
-      } else {
-        setCooldown(cooldown - 1);
-      }
-    },
-    !canResend ? 1000 : null
-  );
-
-  useEffect(() => setIsValidInput(otpCode.length === maxInput), [otpCode]);
-
-  useEffect(() => {
-    setDrawer(
-      !!paneRef?.current && new CupertinoPane(paneRef.current, settings)
-    );
-    if (drawer && showRegistrationPane) drawer.present({ animate: true });
-  }, [paneRef, showRegistrationPane]);
-
-  useEffect(() => {
-    if (auth.error && showRegistrationPane) {
-      setOtpCode("");
-      presentToast({
-        duration: 3000,
-        message: auth.error,
-        color: "dark",
-      });
-      dispatch(authActions.reset("error"));
+    presentLoading({ message: "Please wait..." });
+    if (accountNumber) {
+      dispatch(authActions.register({ accountNumber, billingReference, mobileNumber }));
+    } else {
+      dispatch(authActions.update({ billingReference, mobileNumber }));
     }
-  }, [auth.error]);
+  };
+
+  useEffect(() => {
+    const validBillingReference = billingReference.length === maxInput.billingReference;
+    const validMobileNumber = mobileNumber.startsWith("639") && mobileNumber.length === maxInput.mobileNumber;
+    setIsValidInput(validBillingReference && validMobileNumber);
+  }, [billingReference, mobileNumber]);
+
+  useEffect((): any => {
+    !auth.loading && setTimeout(() => dismissLoading(), 100);
+    return () => {
+      dismissLoading();
+    };
+  }, [auth.loading]);
+
+  useEffect(() => {
+    setDrawer(!!paneRef?.current ? new CupertinoPane(paneRef.current, settings) : null);
+  }, [paneRef]);
+
+  useEffect(() => {
+    if (showPane) {
+      drawer?.present({ animate: true });
+    } else if (drawer?.rendered) {
+      drawer?.destroy({ animate: true });
+    }
+  }, [drawer, showPane]);
 
   return (
     <IonContent ref={paneRef}>
-      <div className="otp-pane-container">
+      <div className="registration-pane-container">
         <div className="header">
-          <h4>Register</h4>
-          <p>
-            Please verify your that you are the account owner by filling out the
-            form below.
-          </p>
+          <h4>{header || "Register"}</h4>
+          <p>Please verify your that you are the account owner by filling out the form below.</p>
         </div>
 
         <div className="content" hide-on-bottom="true">
-          {/* <OtpInput
-            isDisabled={auth.loading}
-            isInputNum
-            numInputs={maxInput}
-            onChange={(value: number) => setOtpCode(value)}
-            separator={<span></span>}
-            shouldAutoFocus
-            value={otpCode}
-          />
+          <IonItem class="input-container">
+            <IonLabel position="floating">Billing Reference Number</IonLabel>
+            <IonInput
+              clearInput
+              inputmode="numeric"
+              maxlength={maxInput.billingReference}
+              onIonChange={(e) => {
+                setBillingReference(e.detail.value);
+                setBillingReference(e.detail.value?.replace(/\D/g, ""));
+              }}
+              placeholder="202xxxxxxxx"
+              type="tel"
+              value={billingReference}
+            ></IonInput>
+          </IonItem>
+
+          <IonItem class="input-container">
+            <IonLabel position="floating">Mobile Number</IonLabel>
+            <IonInput
+              clearInput
+              inputmode="numeric"
+              maxlength={maxInput.mobileNumber}
+              onIonChange={(e) => {
+                setMobileNumber(e.detail.value);
+                setMobileNumber(e.detail.value?.replace(/\D/g, ""));
+              }}
+              placeholder="639xxxxxxxxx"
+              type="tel"
+              value={mobileNumber}
+            ></IonInput>
+          </IonItem>
 
           <Button
             disabled={auth.loading || !isValidInput}
             expand="block"
-            label="Login"
-            loading={auth.loading}
-            onClick={proceedLogin}
+            label={buttonLabel || "Register"}
+            onClick={() => proceed()}
           />
-          <Button
-            disabled={auth.loading || !canResend}
-            expand="block"
-            fill="outline"
-            label={`Resend ${!canResend ? `(${cooldown})` : ""}`}
-            onClick={resendOtp}
-            size="small"
-          /> */}
         </div>
       </div>
     </IonContent>

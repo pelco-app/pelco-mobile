@@ -1,50 +1,65 @@
-import {
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-} from "@ionic/react";
+import { useState } from "react";
+import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
-import { triangle, ellipse, square, person } from "ionicons/icons";
+import { barChartOutline, calendarOutline, personOutline, receiptOutline } from "ionicons/icons";
 import { useContext, AppContext } from "State";
 import { Account, Bills, Dashboard, Schedules } from "pages";
+import { OtpPane, RegistrationPane } from "components";
 import "./MainTabs.scss";
 
 interface Props {}
 
 export const MainTabs: React.FC<Props> = () => {
   const { state } = useContext(AppContext);
+  const [showOtp, setShowOtp] = useState<boolean>(false);
+  const [showRegistration, setShowRegistration] = useState<boolean>(false);
+  const [mobileNumber, setMobileNumber] = useState<any>("");
 
   return (
-    <IonTabs>
-      <IonRouterOutlet>
-        <Redirect exact path="/" to="/dashboard" />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/bills" component={Bills} />
-        <Route exact path="/schedules" component={Schedules} />
-        <Route exact path="/account" component={Account} />
-      </IonRouterOutlet>
+    <>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Redirect exact path="/" to="/dashboard" />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/bills" component={Bills} />
+          <Route exact path="/schedules" component={Schedules} />
+          <Route
+            exact
+            path="/account"
+            render={(props) => <Account {...props} setShowRegistration={setShowRegistration} setShowOtp={setShowOtp} />}
+          />
+        </IonRouterOutlet>
 
-      <IonTabBar slot="bottom">
-        <IonTabButton tab="dashboard" href="/dashboard">
-          <IonIcon icon={triangle} />
-          <IonLabel>Dashboard</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="bills" href="/bills">
-          <IonIcon icon={ellipse} />
-          <IonLabel>Bills</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="schedules" href="/schedules">
-          <IonIcon icon={square} />
-          <IonLabel>Schedules</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="account" href="/account">
-          <IonIcon icon={person} />
-          <IonLabel>Account</IonLabel>
-        </IonTabButton>
-      </IonTabBar>
-    </IonTabs>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="dashboard" href="/dashboard">
+            <IonIcon icon={barChartOutline} />
+            <IonLabel>Dashboard</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="bills" href="/bills">
+            <IonIcon icon={receiptOutline} />
+            <IonLabel>Bills</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="schedules" href="/schedules">
+            <IonIcon icon={calendarOutline} />
+            <IonLabel>Schedules</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="account" href="/account">
+            <IonIcon icon={personOutline} />
+            <IonLabel>Account</IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
+
+      <RegistrationPane
+        buttonLabel="Continue"
+        header="Change Mobile Number"
+        mobileNumber={mobileNumber}
+        setMobileNumber={setMobileNumber}
+        setShowPane={setShowRegistration}
+        showPane={showRegistration}
+      />
+
+      <OtpPane buttonLabel="Update" mobileNumber={mobileNumber} setShowPane={setShowOtp} showPane={showOtp} />
+    </>
   );
 };

@@ -1,24 +1,19 @@
-.registration-modal-container {
-  .modal-wrapper {
-    position: absolute;
-    bottom: 0;
-    height: 45%;
-    border-radius: 20px 20px 0 0;
+.registration-pane-container {
+  padding: 0 20px;
 
-    .content {
-      padding: 0 20px;
-
-      .title {
-        h4 {
-          color: var(--ion-color-primary);
-        }
-
-        p {
-          margin-top: 0;
-          color: #999999;
-          font-size: small;
-        }
-      }
+  .header {
+    h4 {
+      color: var(--ion-color-primary);
     }
+
+    p {
+      margin-top: 0;
+      color: var(--ion-color-medium);
+      font-size: small;
+    }
+  }
+
+  .input-container::part(native) {
+    padding: 0 5px;
   }
 }

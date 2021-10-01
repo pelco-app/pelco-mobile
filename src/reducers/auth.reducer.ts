@@ -4,7 +4,7 @@ const initialState: any = {
   isFirstStart: true,
   isLoggedIn: false,
   loading: false,
-  user: {},
+  token: null,
 };
 
 const reducer = (state: any, action: any) => {
@@ -18,7 +18,22 @@ const reducer = (state: any, action: any) => {
     case authTypes.LOGIN_REQUEST:
     case authTypes.CHECK_REQUEST:
     case authTypes.OTP_REQUEST:
+    case authTypes.REGISTER_REQUEST:
+    case authTypes.UPDATE_REQUEST:
+    case authTypes.UPDATE_VERIFY_REQUEST:
       return { ...state, loading: true };
+
+    case authTypes.CHECK_FAILURE:
+    case authTypes.LOGIN_FAILURE:
+    case authTypes.OTP_FAILURE:
+    case authTypes.REGISTER_FAILURE:
+    case authTypes.UPDATE_FAILURE:
+    case authTypes.UPDATE_VERIFY_FAILURE:
+      return {
+        ...state,
+        error: action.message || "Network error. Please try again.",
+        loading: false,
+      };
 
     case authTypes.CHECK_SUCCESS:
       const { isRegistered, isMobileVerified, isReset } = action;
@@ -29,19 +44,17 @@ const reducer = (state: any, action: any) => {
       };
 
     case authTypes.OTP_SUCCESS:
-      const { message } = action;
       return {
         ...state,
-        message,
+        message: action.message,
         loading: false,
       };
 
-    case authTypes.CHECK_FAILURE:
-    case authTypes.LOGIN_FAILURE:
-    case authTypes.OTP_FAILURE:
+    case authTypes.REGISTER_SUCCESS:
       return {
         ...state,
-        error: action.message,
+        isRegistrationSuccess: true,
+        message: action.message,
         loading: false,
       };
 
@@ -50,7 +63,23 @@ const reducer = (state: any, action: any) => {
         ...state,
         isLoggedIn: true,
         loading: false,
-        user: { token: action.token },
+        token: action.token,
+      };
+
+    case authTypes.UPDATE_SUCCESS:
+      return {
+        ...state,
+        isUpdateVerification: true,
+        message: action.message,
+        loading: false,
+      };
+
+    case authTypes.UPDATE_VERIFY_SUCCESS:
+      return {
+        ...state,
+        isUpdateSuccess: true,
+        message: action.message,
+        loading: false,
       };
 
     case authTypes.LOGOUT:

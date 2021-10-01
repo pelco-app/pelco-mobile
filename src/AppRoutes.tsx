@@ -19,16 +19,16 @@ const App: React.FC = () => {
   const showWelcomeScreen = auth.isFirstStart;
   const showLoginScreen = !showWelcomeScreen && !auth.isLoggedIn;
   const showMainScreen = !showWelcomeScreen && auth.isLoggedIn;
-  const tabRoutes = ["/", "/dashboard", "/bills", "/schedules", "/account"];
   const ionRouter = useIonRouter();
   const isMounted = useIsMounted();
+  const tabRoutes = ["/", "/dashboard", "/bills", "/schedules", "/account"];
 
   useEffect(() => {
-    const setDeviceName = async () => {
-      const info = await Device.getInfo();
-      dispatch(deviceActions.setDeviceName(info.model));
-    };
     if (!isMounted) {
+      const setDeviceName = async () => {
+        const info = await Device.getInfo();
+        dispatch(deviceActions.setDeviceName(info.model));
+      };
       setDeviceName();
     }
   }, [isMounted]);
