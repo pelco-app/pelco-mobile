@@ -6,6 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:android": "ionic cap build android",
+    "serve:live": "ionic cap run android -l --external",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "resources": "cordova-res android --skip-config --copy"
@@ -35,6 +36,7 @@
     "@capacitor/filesystem": "^1.0.3",
     "@capacitor/haptics": "1.0.3",
     "@capacitor/keyboard": "1.0.3",
+    "@capacitor/local-notifications": "^1.0.6",
     "@capacitor/splash-screen": "^1.1.2",
     "@capacitor/status-bar": "1.0.3",
     "@capacitor/storage": "^1.2.0",

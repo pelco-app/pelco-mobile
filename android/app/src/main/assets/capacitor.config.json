@@ -7,10 +7,14 @@
 		"cleartext": true
 	},
 	"plugins": {
+		"LocalNotifications": {
+			"smallIcon": "ic_stat_icon",
+			"iconColor": "#FF0000"
+		},
 		"SplashScreen": {
 			"launchShowDuration": 3000,
 			"launchAutoHide": true,
-			"backgroundColor": "#ffffffff",
+			"backgroundColor": "#FFFFFFFF",
 			"androidScaleType": "CENTER_CROP",
 			"showSpinner": false,
 			"splashFullScreen": true,

@@ -1,3 +1,4 @@
+import { removeNotificationListeners } from "utils/hooks";
 import { authService } from "./services";
 import { authTypes } from "./types";
 
@@ -31,7 +32,11 @@ const verify = (data: any) => {
   };
 };
 
-const logout = () => ({ type: authTypes.LOGOUT });
+const logout = () => {
+  removeNotificationListeners();
+  authService.logout();
+  return { type: authTypes.LOGOUT };
+};
 
 const register = (data: any) => {
   const request = (data: any) => ({ type: authTypes.REGISTER_REQUEST, ...data });

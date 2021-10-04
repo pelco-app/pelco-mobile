@@ -18,8 +18,13 @@ const current = () => {
 };
 
 const logout = () => {
-  return http.get("/logout").then((res) => {
-    return res.data;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data: response } = await http.post("/auth/logout");
+      resolve(response);
+    } catch (error: any) {
+      reject(error);
+    }
   });
 };
 

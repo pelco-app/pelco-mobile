@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
-import { barChartOutline, calendarOutline, personOutline, receiptOutline } from "ionicons/icons";
+import { barChartOutline, calendarOutline, megaphoneOutline, personOutline, receiptOutline } from "ionicons/icons";
 import { useContext, AppContext } from "State";
-import { Account, Bills, Dashboard, Schedules } from "pages";
+import { Account, Announcements, Bills, Dashboard, Schedules } from "pages";
 import { OtpPane, RegistrationPane } from "components";
 import "./MainTabs.scss";
 
@@ -22,6 +22,8 @@ export const MainTabs: React.FC<Props> = () => {
           <Redirect exact path="/" to="/dashboard" />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/bills" component={Bills} />
+          <Route exact path="/bills/:id" component={Bills} />
+          <Route exact path="/announcements" component={Announcements} />
           <Route exact path="/schedules" component={Schedules} />
           <Route
             exact
@@ -38,6 +40,10 @@ export const MainTabs: React.FC<Props> = () => {
           <IonTabButton tab="bills" href="/bills">
             <IonIcon icon={receiptOutline} />
             <IonLabel>Bills</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="announcements" href="/announcements">
+            <IonIcon icon={megaphoneOutline} />
+            <IonLabel>Announcements</IonLabel>
           </IonTabButton>
           <IonTabButton tab="schedules" href="/schedules">
             <IonIcon icon={calendarOutline} />

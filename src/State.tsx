@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { combineStateReducers, getPersist, logger, setPersist, useReducerThunk } from "utils/context";
-import { useIsMounted } from "utils/useIsMounted";
+import { useIsMounted } from "utils/hooks";
 import { auth, device } from "context";
 
 export interface IStateDispatch {

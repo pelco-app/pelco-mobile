@@ -1,14 +1,11 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { ExploreContainer } from "components";
+import { RouteComponentProps } from "react-router-dom";
 import "./Bills.scss";
 
-export const Bills: React.FC = () => {
+interface Props extends RouteComponentProps<{ id: string }> {}
+
+export const Bills: React.FC<Props> = ({ match }) => {
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -18,7 +15,7 @@ export const Bills: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-        <ExploreContainer name="Bills page" />
+        <ExploreContainer name={match.params.id ? `Bill id: ${match.params.id}` : `Bills page`} />
       </IonContent>
     </IonPage>
   );
