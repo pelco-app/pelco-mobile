@@ -1,4 +1,4 @@
-import { authTypes } from "actions/auth.action";
+import { authTypes } from "./types";
 
 const initialState: any = {
   isFirstStart: true,

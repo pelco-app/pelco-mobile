@@ -14,7 +14,7 @@ import {
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 import { AppContext, useContext } from "State";
-import { authActions } from "actions";
+import { authActions } from "context";
 import { Button, OtpInput, OtpPane, RegistrationPane } from "components";
 import "./Login.scss";
 

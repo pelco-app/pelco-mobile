@@ -1,17 +1,8 @@
 import { useRef, useState } from "react";
-import {
-  IonSlides,
-  IonSlide,
-  IonContent,
-  IonButton,
-  IonIcon,
-  IonButtons,
-  IonToolbar,
-  IonPage,
-} from "@ionic/react";
+import { IonSlides, IonSlide, IonContent, IonButton, IonIcon, IonButtons, IonToolbar, IonPage } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useContext, AppContext } from "State";
-import { authActions } from "actions";
+import { authActions } from "context";
 import "./Welcome.scss";
 
 const slideOpts = {
@@ -42,20 +33,14 @@ export const Welcome: React.FC<Props> = () => {
           )}
         </IonToolbar>
 
-        <IonSlides
-          ref={slider}
-          pager={true}
-          options={slideOpts}
-          onIonSlideDidChange={handleSlideChange}
-        >
+        <IonSlides ref={slider} pager={true} options={slideOpts} onIonSlideDidChange={handleSlideChange}>
           <IonSlide>
             <div className="slide">
               <img src="assets/icons/slide-1.png" />
               <h2>Welcome</h2>
               <p>
-                The <b>PELCO1 Reminder App</b> is an app where you can view your
-                bills, power interruption schedules and other PELCO1
-                announcements.
+                The <b>PELCO1 Reminder App</b> is an app where you can view your bills, power interruption schedules and
+                other PELCO1 announcements.
               </p>
             </div>
           </IonSlide>
@@ -65,9 +50,8 @@ export const Welcome: React.FC<Props> = () => {
               <img src="assets/icons/slide-2.png" />
               <h2>Monthly Bills</h2>
               <p>
-                You can now view your <b>Monthly Bills</b> and be notified of
-                your current due date and disconnection date at the ease of your
-                hands.
+                You can now view your <b>Monthly Bills</b> and be notified of your current due date and disconnection
+                date at the ease of your hands.
               </p>
             </div>
           </IonSlide>
@@ -77,11 +61,8 @@ export const Welcome: React.FC<Props> = () => {
               <img src="assets/icons/slide-3.png" />
               <h2>Announcement and Schedules</h2>
               <p>
-                View and be notified of{" "}
-                <b>
-                  PELCO1 Official Announcement and Power Interruption Schedules
-                </b>{" "}
-                and plan ahead to avoid inconvenience.
+                View and be notified of <b>PELCO1 Official Announcement and Power Interruption Schedules</b> and plan
+                ahead to avoid inconvenience.
               </p>
             </div>
           </IonSlide>

@@ -1,13 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
-import {
-  combineStateReducers,
-  getPersist,
-  logger,
-  setPersist,
-  useReducerThunk,
-} from "utils/context";
+import { combineStateReducers, getPersist, logger, setPersist, useReducerThunk } from "utils/context";
 import { useIsMounted } from "utils/useIsMounted";
-import { auth, device } from "reducers";
+import { auth, device } from "context";
 
 export interface IStateDispatch {
   state: any;
@@ -17,8 +11,7 @@ export interface IStateDispatch {
 const AppContext = createContext({} as IStateDispatch);
 const reducersList = { auth, device };
 const { initialStates, reducers } = combineStateReducers(reducersList);
-const loggerReducer =
-  process.env.REACT_APP_ENV !== "development" ? reducers : logger(reducers);
+const loggerReducer = process.env.REACT_APP_ENV !== "development" ? reducers : logger(reducers);
 
 const AppContextProvider = (props: any) => {
   const isMounted = useIsMounted();
@@ -27,17 +20,13 @@ const AppContextProvider = (props: any) => {
 
   useEffect(() => {
     if (isMounted) {
-      getPersist(reducersList).then((states) =>
-        dispatch({ type: "PERSIST", states })
-      );
+      getPersist(reducersList).then((states) => dispatch({ type: "PERSIST", states }));
     } else {
       setPersist(state, Object.keys(reducersList));
     }
   }, [state]);
 
-  return (
-    <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
 };
 
 export { AppContext, AppContextProvider, useContext };

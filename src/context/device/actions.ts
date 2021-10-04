@@ -1,6 +1,4 @@
-export const deviceTypes = {
-  SET_DEVICE_NAME: "SET_DEVICE_NAME",
-};
+import { deviceTypes } from "./types";
 
 const setDeviceName = (name?: string) => ({
   type: deviceTypes.SET_DEVICE_NAME,

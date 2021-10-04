@@ -10,7 +10,7 @@ import {
   useIonLoading,
   useIonToast,
 } from "@ionic/react";
-import { authActions } from "actions";
+import { authActions } from "context";
 import { useState, useEffect } from "react";
 import { useContext, AppContext } from "State";
 import "./Account.scss";

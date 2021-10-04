@@ -6,9 +6,9 @@ import { Device } from "@capacitor/device";
 import { AppContext, useContext } from "State";
 import { MainTabs } from "components";
 import { Login, Welcome } from "pages";
-import { deviceActions } from "actions";
-import "styles/app.scss";
+import { deviceActions } from "context";
 import { useIsMounted } from "utils/useIsMounted";
+import "styles/app.scss";
 
 const App: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -35,10 +35,7 @@ const App: React.FC = () => {
 
   document.addEventListener("ionBackButton", (ev: any) => {
     ev.detail.register(1, () => {
-      if (
-        !ionRouter.canGoBack() ||
-        tabRoutes.includes(ionRouter.routeInfo.pathname)
-      ) {
+      if (!ionRouter.canGoBack() || tabRoutes.includes(ionRouter.routeInfo.pathname)) {
         if (new Date().getTime() - lastBackPress < timePeriodToExit) {
           AppPlugin.exitApp();
         } else {
@@ -57,12 +54,7 @@ const App: React.FC = () => {
     <>
       <Route exact path="/welcome" component={Welcome} />
       <Route exact path="/login" component={Login} />
-      <Route
-        path="/"
-        component={
-          showMainScreen ? MainTabs : showLoginScreen ? Login : Welcome
-        }
-      />
+      <Route path="/" component={showMainScreen ? MainTabs : showLoginScreen ? Login : Welcome} />
       <Route exact path="*" render={() => <Redirect to="/" />} />
     </>
   );

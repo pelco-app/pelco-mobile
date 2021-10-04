@@ -3,7 +3,7 @@ import { IonContent, IonInput, IonItem, IonLabel, useIonLoading, useIonToast } f
 import { CupertinoPane } from "cupertino-pane";
 import { Button } from "components";
 import { AppContext } from "State";
-import { authActions } from "actions";
+import { authActions } from "context";
 import "./RegistrationPane.scss";
 
 interface Props {

@@ -1,4 +1,4 @@
-import { deviceTypes } from "actions/device.action";
+import { deviceTypes } from "./types";
 
 const initialState: any = {
   name: "",
