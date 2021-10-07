@@ -10,10 +10,10 @@ const initialState: any = {
 const reducer = (state: any, action: any) => {
   switch (action.type) {
     case authTypes.WELCOME_SCREEN:
-      return { ...state, isFirstStart: action.show };
+      return { ...state, isFirstStart: action.payload.show };
 
     case authTypes.RESET_STATE_KEY:
-      return { ...state, [action.key]: initialState[action.key] };
+      return { ...state, [action.payload.key]: initialState[action.payload.key] };
 
     case authTypes.LOGIN_REQUEST:
     case authTypes.CHECK_REQUEST:
@@ -31,22 +31,21 @@ const reducer = (state: any, action: any) => {
     case authTypes.UPDATE_VERIFY_FAILURE:
       return {
         ...state,
-        error: action.message || "Network error. Please try again.",
+        error: action.payload.message || "Network error. Please try again.",
         loading: false,
       };
 
     case authTypes.CHECK_SUCCESS:
-      const { isRegistered, isMobileVerified, isReset } = action;
       return {
         ...state,
-        check: { isRegistered, isMobileVerified, isReset },
+        check: { ...action.payload },
         loading: false,
       };
 
     case authTypes.OTP_SUCCESS:
       return {
         ...state,
-        message: action.message,
+        message: action.payload.message,
         loading: false,
       };
 
@@ -54,7 +53,7 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         isRegistrationSuccess: true,
-        message: action.message,
+        message: action.payload.message,
         loading: false,
       };
 
@@ -63,14 +62,14 @@ const reducer = (state: any, action: any) => {
         ...state,
         isLoggedIn: true,
         loading: false,
-        token: action.token,
+        token: action.payload.token,
       };
 
     case authTypes.UPDATE_SUCCESS:
       return {
         ...state,
         isUpdateVerification: true,
-        message: action.message,
+        message: action.payload.message,
         loading: false,
       };
 
@@ -78,7 +77,7 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         isUpdateSuccess: true,
-        message: action.message,
+        message: action.payload.message,
         loading: false,
       };
 

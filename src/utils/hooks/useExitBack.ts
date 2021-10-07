@@ -23,7 +23,15 @@ export const useExitBack = () => {
           setLastBackPress(new Date().getTime());
         }
       } else {
-        ionRouter.goBack();
+        if (/announcements\//.test(ionRouter.routeInfo.pathname)) {
+          ionRouter.push("/announcements", "back");
+        } else if (/bills\//.test(ionRouter.routeInfo.pathname)) {
+          ionRouter.push("/bills", "back");
+        } else if (/schedules\//.test(ionRouter.routeInfo.pathname)) {
+          ionRouter.push("/schedules", "back");
+        } else {
+          ionRouter.goBack();
+        }
       }
     });
   });

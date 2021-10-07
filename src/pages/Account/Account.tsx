@@ -22,7 +22,7 @@ interface Props {
 
 export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp }) => {
   const { state, dispatch } = useContext(AppContext);
-  const { auth } = state;
+  const { auth, device } = state;
   const [, dismissLoading] = useIonLoading();
   const [presentToast] = useIonToast();
 
@@ -66,7 +66,7 @@ export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp }) =>
             <IonLabel onClick={() => setShowRegistration(true)}>Change Mobile Number</IonLabel>
           </IonItem>
           <IonItem>
-            <IonLabel onClick={() => dispatch(authActions.logout())}>Logout</IonLabel>
+            <IonLabel onClick={() => dispatch(authActions.logout(device.deviceToken))}>Logout</IonLabel>
           </IonItem>
         </IonList>
       </IonContent>

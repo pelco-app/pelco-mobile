@@ -7,9 +7,12 @@
 		"cleartext": true
 	},
 	"plugins": {
-		"LocalNotifications": {
-			"smallIcon": "ic_stat_icon",
-			"iconColor": "#FF0000"
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
 		},
 		"SplashScreen": {
 			"launchShowDuration": 3000,

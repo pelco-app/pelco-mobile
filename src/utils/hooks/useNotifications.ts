@@ -1,76 +1,41 @@
-import { LocalNotifications } from "@capacitor/local-notifications";
 import { useIonRouter } from "@ionic/react";
-
-interface Extra {
-  type?: "announcement" | "bill" | "schedule";
-  id?: string | number;
-}
-
-interface Notification {
-  id: number;
-  title: string;
-  body: string;
-  summaryText?: string;
-  extra?: Extra;
-}
+import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from "@capacitor/push-notifications";
+import { deviceActions } from "context";
+import { useContext, AppContext } from "State";
 
 export const useNotifications = () => {
+  const { dispatch } = useContext(AppContext);
   const ionRouter = useIonRouter();
-
-  const notify = async ({ id, title, body, summaryText, extra }: Notification) => {
-    try {
-      if ((await LocalNotifications.requestPermissions()).display !== "granted") return;
-
-      await LocalNotifications.schedule({
-        notifications: [
-          {
-            id,
-            title,
-            body,
-            largeBody: body,
-            summaryText,
-            extra,
-            // ongoing: true,
-          },
-        ],
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const registerNotificationListeners = async () => {
     try {
-      if ((await LocalNotifications.requestPermissions()).display !== "granted") return;
+      if ((await PushNotifications.requestPermissions()).receive !== "granted") return;
 
-      LocalNotifications.addListener("localNotificationReceived", (notification) => {
-        console.log(notification);
+      PushNotifications.register();
+
+      PushNotifications.addListener("registration", (token: Token) => {
+        dispatch(deviceActions.setDeviceToken(token.value));
       });
 
-      LocalNotifications.addListener("localNotificationActionPerformed", ({ notification }) => {
-        switch (notification.extra?.type) {
-          case "announcement":
-            ionRouter.push("/announcements");
-            break;
-          case "bill":
-            ionRouter.push("/bills/1");
-            break;
-          case "schedule":
-            ionRouter.push("/schedules");
-            break;
-          default:
-            break;
+      PushNotifications.addListener("pushNotificationReceived", (notification: PushNotificationSchema) => {
+        console.log("Push received: ", notification);
+      });
+
+      PushNotifications.addListener("pushNotificationActionPerformed", (action: ActionPerformed) => {
+        const { data } = action.notification;
+        const currentPathName = ionRouter.routeInfo.pathname;
+        const targetPathName = `/${data?.type}${data?.reference_id ? `/${data?.reference_id}` : ""}`;
+
+        if (data?.type && currentPathName !== targetPathName) {
+          ionRouter.push(targetPathName);
         }
-        console.log(notification);
       });
     } catch (error) {
       console.error(error);
     }
   };
 
-  return { notify, registerNotificationListeners };
+  return { registerNotificationListeners };
 };
 
-export const removeNotificationListeners = async () => {
-  await LocalNotifications.removeAllListeners();
-};
+export const removeNotificationListeners = async () => await PushNotifications.removeAllListeners();

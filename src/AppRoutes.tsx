@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { Device } from "@capacitor/device";
+import { isPlatform } from "@ionic/react";
 import { AppContext, useContext } from "State";
 import { MainTabs } from "components";
 import { Login, Welcome } from "pages";
@@ -28,7 +29,11 @@ const App: React.FC = () => {
     }
   }, [isMounted]);
 
-  useEffect(() => auth.token && registerNotificationListeners(), [auth.token]);
+  useEffect(() => {
+    if (auth.token && isPlatform("android")) {
+      registerNotificationListeners();
+    }
+  }, [auth.token]);
 
   return (
     <>

@@ -17,10 +17,10 @@ const current = () => {
   });
 };
 
-const logout = () => {
+const logout = (deviceToken: string) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { data: response } = await http.post("/auth/logout");
+      const { data: response } = await http.post("/auth/logout", { deviceToken });
       resolve(response);
     } catch (error: any) {
       reject(error);
