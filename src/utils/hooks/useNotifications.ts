@@ -2,6 +2,7 @@ import { useIonRouter } from "@ionic/react";
 import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from "@capacitor/push-notifications";
 import { deviceActions } from "context";
 import { useContext, AppContext } from "State";
+import { isPlatform } from "@ionic/react";
 
 export const useNotifications = () => {
   const { dispatch } = useContext(AppContext);
@@ -38,4 +39,8 @@ export const useNotifications = () => {
   return { registerNotificationListeners };
 };
 
-export const removeNotificationListeners = async () => await PushNotifications.removeAllListeners();
+export const removeNotificationListeners = async () => {
+  if (isPlatform("android")) {
+    await PushNotifications.removeAllListeners();
+  }
+};

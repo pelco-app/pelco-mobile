@@ -1,19 +1,18 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { ExploreContainer } from "components";
+import { IonPage } from "@ionic/react";
+import { ExploreContainer, ScrollingContent } from "components";
+import { RouteComponentProps } from "react-router-dom";
 import "./Announcements.scss";
 
-export const Announcements: React.FC = () => {
+interface Props extends RouteComponentProps<any> {
+  scrollToTop: number;
+}
+
+export const Announcements: React.FC<Props> = (props) => {
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="small">Announcements</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
+      <ScrollingContent {...props} title="Announcements">
         <ExploreContainer name="Announcements page" />
-      </IonContent>
+      </ScrollingContent>
     </IonPage>
   );
 };

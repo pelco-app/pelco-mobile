@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import { combineStateReducers, getPersist, logger, setPersist, useReducerThunk } from "utils/context";
 import { useIsMounted } from "utils/hooks";
-import { auth, device } from "context";
+import { auth, bills, device } from "context";
 
 export interface IStateDispatch {
   state: any;
@@ -9,7 +9,7 @@ export interface IStateDispatch {
 }
 
 const AppContext = createContext({} as IStateDispatch);
-const reducersList = { auth, device };
+const reducersList = { auth, bills, device };
 const { initialStates, reducers } = combineStateReducers(reducersList);
 const loggerReducer = process.env.REACT_APP_ENV !== "development" ? reducers : logger(reducers);
 

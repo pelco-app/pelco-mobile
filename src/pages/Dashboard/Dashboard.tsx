@@ -1,19 +1,19 @@
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonPage } from "@ionic/react";
+import { ScrollingContent } from "components";
+import { RouteComponentProps } from "react-router-dom";
 import { AppContext, useContext } from "State";
 import "./Dashboard.scss";
 
-export const Dashboard: React.FC = () => {
+interface Props extends RouteComponentProps<any> {
+  scrollToTop: number;
+}
+
+export const Dashboard: React.FC<Props> = (props) => {
   const { state } = useContext(AppContext);
 
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="small">Dashboard</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-      </IonContent>
+      <ScrollingContent {...props} title="Dashboard"></ScrollingContent>
     </IonPage>
   );
 };

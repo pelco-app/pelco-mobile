@@ -1,5 +1,7 @@
 import { useReducer } from "react";
 import { Storage } from "@capacitor/storage";
+import { authTypes } from "context/auth/types";
+import { auth, bills } from "context";
 
 interface IStateReducer {
   initialState: any;
@@ -29,10 +31,7 @@ export const getPersist = async (stateReducers: IStateReducers) => {
   return value ? JSON.parse(value) : initialStates;
 };
 
-export const setPersist = async (
-  state: any,
-  persistentReducers: string[] = []
-) => {
+export const setPersist = async (state: any, persistentReducers: string[] = []) => {
   const newStates: any = {};
   persistentReducers.forEach((key) => (newStates[key] = state[key]));
 
@@ -66,17 +65,14 @@ export const combineStateReducers = (stateReducers: IStateReducers) => {
 
 export const logger = (reducer: any) => {
   const reducerWithLogger = (state: any, action: any) => {
-    console.log(
-      "%cPrevious State:",
-      "color: #9E9E9E; font-weight: 700;",
-      state
-    );
+    if (action.type === authTypes.LOGOUT) {
+      const reducersList = { auth, bills };
+      const initialStates = getInitialStates(reducersList);
+      state = { ...initialStates, device: state.device };
+    }
+    console.log("%cPrevious State:", "color: #9E9E9E; font-weight: 700;", state);
     console.log("%cAction:", "color: #00A7F7; font-weight: 700;", action);
-    console.log(
-      "%cNext State:",
-      "color: #47B04B; font-weight: 700;",
-      reducer(state, action)
-    );
+    console.log("%cNext State:", "color: #47B04B; font-weight: 700;", reducer(state, action));
     return reducer(state, action);
   };
 

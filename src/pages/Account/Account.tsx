@@ -1,26 +1,18 @@
-import {
-  IonContent,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  useIonLoading,
-  useIonToast,
-} from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonPage, useIonLoading, useIonToast } from "@ionic/react";
+import { RouteComponentProps } from "react-router-dom";
 import { authActions } from "context";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useContext, AppContext } from "State";
+import { ScrollingContent } from "components";
 import "./Account.scss";
 
-interface Props {
+interface Props extends RouteComponentProps<any> {
+  scrollToTop: number;
   setShowRegistration: (state: boolean) => void;
   setShowOtp: (state: boolean) => void;
 }
 
-export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp }) => {
+export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp, ...props }) => {
   const { state, dispatch } = useContext(AppContext);
   const { auth, device } = state;
   const [, dismissLoading] = useIonLoading();
@@ -54,13 +46,7 @@ export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp }) =>
 
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="small">Account</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
+      <ScrollingContent {...props} title="Account">
         <IonList>
           <IonItem>
             <IonLabel onClick={() => setShowRegistration(true)}>Change Mobile Number</IonLabel>
@@ -69,7 +55,7 @@ export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp }) =>
             <IonLabel onClick={() => dispatch(authActions.logout(device.deviceToken))}>Logout</IonLabel>
           </IonItem>
         </IonList>
-      </IonContent>
+      </ScrollingContent>
     </IonPage>
   );
 };

@@ -82,7 +82,7 @@ const reducer = (state: any, action: any) => {
       };
 
     case authTypes.LOGOUT:
-      return { ...state, ...initialState, isFirstStart: false };
+      return { ...initialState, isFirstStart: false };
   }
 
   return state;

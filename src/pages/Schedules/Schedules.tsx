@@ -1,25 +1,18 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { ExploreContainer } from "components";
+import { IonPage } from "@ionic/react";
+import { ExploreContainer, ScrollingContent } from "components";
+import { RouteComponentProps } from "react-router-dom";
 import "./Schedules.scss";
 
-export const Schedules: React.FC = () => {
+interface Props extends RouteComponentProps<any> {
+  scrollToTop: number;
+}
+
+export const Schedules: React.FC<Props> = (props) => {
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="small">Schedules</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
+      <ScrollingContent {...props} title="Schedules">
         <ExploreContainer name="Schedules page" />
-      </IonContent>
+      </ScrollingContent>
     </IonPage>
   );
 };
