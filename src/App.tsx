@@ -5,6 +5,7 @@ import { SplashScreen } from "@capacitor/splash-screen";
 
 import { store } from "store";
 import AppRoutes from "AppRoutes";
+import { NetworkStatus } from "components";
 
 import "styles/app.scss";
 
@@ -15,6 +16,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <IonApp>
+        <NetworkStatus />
         <IonReactRouter>
           <AppRoutes />
         </IonReactRouter>
