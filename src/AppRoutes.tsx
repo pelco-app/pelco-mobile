@@ -1,20 +1,22 @@
 import { useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { Device } from "@capacitor/device";
 import { isPlatform } from "@ionic/react";
-import { AppContext, useContext } from "State";
-import { MainTabs } from "components";
+import { Device } from "@capacitor/device";
+
 import { Login, Welcome } from "pages";
-import { deviceActions } from "context";
-import { useExitBack, useIsMounted, useNotifications } from "utils/hooks";
+import { MainTabs } from "components";
+import { deviceActions, useAppDispatch, useAppSelector } from "states";
+import { useExitBack, useIsMounted, useNotifications, usePersistentState } from "utils/hooks";
+
 import "styles/app.scss";
 
-const App: React.FC = () => {
+const AppRoutes: React.FC = () => {
   useExitBack();
+  usePersistentState();
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state);
   const isMounted = useIsMounted();
   const { registerNotificationListeners } = useNotifications();
-  const { state, dispatch } = useContext(AppContext);
-  const { auth } = state;
   const showWelcomeScreen = auth.isFirstStart;
   const showLoginScreen = !showWelcomeScreen && !auth.isLoggedIn;
   const showMainScreen = !showWelcomeScreen && auth.isLoggedIn;
@@ -45,4 +47,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default AppRoutes;

@@ -1,20 +1,21 @@
-import { IonItem, IonLabel, IonList, IonPage, useIonLoading, useIonToast } from "@ionic/react";
-import { RouteComponentProps } from "react-router-dom";
-import { authActions } from "context";
 import { useEffect } from "react";
-import { useContext, AppContext } from "State";
+import { RouteComponentProps } from "react-router-dom";
+import { IonItem, IonLabel, IonList, IonPage, useIonLoading, useIonToast } from "@ionic/react";
+
 import { ScrollingContent } from "components";
+import { authActions, useAppDispatch, useAppSelector } from "states";
+
 import "./Account.scss";
 
 interface Props extends RouteComponentProps<any> {
   scrollToTop: number;
-  setShowRegistration: (state: boolean) => void;
   setShowOtp: (state: boolean) => void;
+  setShowRegistration: (state: boolean) => void;
 }
 
-export const Account: React.FC<Props> = ({ setShowRegistration, setShowOtp, ...props }) => {
-  const { state, dispatch } = useContext(AppContext);
-  const { auth, device } = state;
+export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...props }) => {
+  const dispatch = useAppDispatch();
+  const { auth, device } = useAppSelector((state) => state);
   const [, dismissLoading] = useIonLoading();
   const [presentToast] = useIonToast();
 

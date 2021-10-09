@@ -6,9 +6,9 @@ export const OtpInput: React.FC<any> = ({ ...props }) => {
     <ReactOtpInput
       containerStyle="otp-input-container"
       disabledStyle="disabled"
-      inputStyle="input"
       errorStyle="error"
       focusStyle="focus"
+      inputStyle="input"
       {...props}
     />
   );

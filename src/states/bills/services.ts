@@ -1,6 +1,6 @@
 import http from "utils/http";
 
-const fetch = (url?: string) => {
+export const fetch = (url?: string) => {
   return new Promise(async (resolve, reject) => {
     try {
       const [, query] = url?.split("?") || [, ,];
@@ -13,7 +13,7 @@ const fetch = (url?: string) => {
   });
 };
 
-const get = (id: number) => {
+export const get = (id: number) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.get(`/bills/${id}`);
@@ -22,9 +22,4 @@ const get = (id: number) => {
       reject(error);
     }
   });
-};
-
-export const billService = {
-  fetch,
-  get,
 };

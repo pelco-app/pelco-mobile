@@ -1,4 +1,4 @@
-import { authTypes } from "./types";
+import { authTypes } from "states";
 
 const initialState: any = {
   isFirstStart: true,
@@ -7,7 +7,7 @@ const initialState: any = {
   token: null,
 };
 
-const reducer = (state: any, action: any) => {
+export const authReducer = (state: any = initialState, action: any) => {
   switch (action.type) {
     case authTypes.WELCOME_SCREEN:
       return { ...state, isFirstStart: action.payload.show };
@@ -86,9 +86,4 @@ const reducer = (state: any, action: any) => {
   }
 
   return state;
-};
-
-export const auth = {
-  initialState,
-  reducer,
 };

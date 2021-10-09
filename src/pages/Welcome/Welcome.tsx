@@ -1,22 +1,34 @@
 import { useRef, useState } from "react";
-import { IonSlides, IonSlide, IonContent, IonButton, IonIcon, IonButtons, IonToolbar, IonPage } from "@ionic/react";
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonIcon,
+  IonPage,
+  IonSlide,
+  IonSlides,
+  IonToolbar,
+} from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
-import { useContext, AppContext } from "State";
-import { authActions } from "context";
+
+import { authActions, useAppDispatch } from "states";
+
 import "./Welcome.scss";
+
+interface Props {}
 
 const slideOpts = {
   initialSlide: 0,
   speed: 400,
 };
 
-interface Props {}
-
 export const Welcome: React.FC<Props> = () => {
-  const { dispatch } = useContext(AppContext);
+  const dispatch = useAppDispatch();
+  const slider = useRef<any>();
   const [showSkip, setShowSkip] = useState<boolean>(true);
-  const slider = useRef<any>(null);
+
   const hideWelcomeScreen = () => dispatch(authActions.welcome(false));
+
   const handleSlideChange = async () => {
     const swiper = await slider.current.getSwiper();
     setShowSkip(!swiper.isEnd);
@@ -39,8 +51,8 @@ export const Welcome: React.FC<Props> = () => {
               <img src="assets/icons/slide-1.png" />
               <h2>Welcome</h2>
               <p>
-                The <b>PELCO1 Reminder App</b> is an app where you can view your bills, power interruption schedules and
-                other PELCO1 announcements.
+                The <b>PELCO1 Reminder App</b> is an app where you can view your bills, power interruption
+                schedules and other PELCO1 announcements.
               </p>
             </div>
           </IonSlide>
@@ -50,8 +62,8 @@ export const Welcome: React.FC<Props> = () => {
               <img src="assets/icons/slide-2.png" />
               <h2>Monthly Bills</h2>
               <p>
-                You can now view your <b>Monthly Bills</b> and be notified of your current due date and disconnection
-                date at the ease of your hands.
+                You can now view your <b>Monthly Bills</b> and be notified of your current due date and
+                disconnection date at the ease of your hands.
               </p>
             </div>
           </IonSlide>
@@ -61,8 +73,8 @@ export const Welcome: React.FC<Props> = () => {
               <img src="assets/icons/slide-3.png" />
               <h2>Announcement and Schedules</h2>
               <p>
-                View and be notified of <b>PELCO1 Official Announcement and Power Interruption Schedules</b> and plan
-                ahead to avoid inconvenience.
+                View and be notified of <b>PELCO1 Official Announcement and Power Interruption Schedules</b>{" "}
+                and plan ahead to avoid inconvenience.
               </p>
             </div>
           </IonSlide>

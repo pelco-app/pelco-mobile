@@ -7,7 +7,7 @@ interface Props {
 
 export const Refresher: React.FC<Props> = ({ onRefresh }) => {
   return (
-    <IonRefresher slot="fixed" onIonRefresh={onRefresh} pullFactor={0.5} pullMin={100} pullMax={200}>
+    <IonRefresher onIonRefresh={onRefresh} pullFactor={0.5} pullMax={200} pullMin={100} slot="fixed">
       <IonRefresherContent
         pullingIcon={chevronDownOutline}
         pullingText="Pull to refresh"

@@ -1,18 +1,25 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { Refresher, SkeletonList } from "components";
-import { billActions } from "context";
 import { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { useContext, AppContext } from "State";
+import {
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+
+import { Refresher, SkeletonList } from "components";
+import { billActions, useAppDispatch, useAppSelector } from "states";
+
 import "./Bill.scss";
 
-interface Props extends RouteComponentProps<any> {
-  scrollToTop: number;
-}
+interface Props extends RouteComponentProps<any> {}
 
 export const Bill: React.FC<Props> = ({ match }) => {
-  const { state, dispatch } = useContext(AppContext);
-  const { bills } = state;
+  const dispatch = useAppDispatch();
+  const { bills } = useAppSelector((state) => state);
 
   const doRefresh = (refresher: any) => {
     dispatch(billActions.get(match.params.id, refresher.detail));
@@ -34,7 +41,7 @@ export const Bill: React.FC<Props> = ({ match }) => {
       <IonContent fullscreen className="bill-page">
         <Refresher onRefresh={doRefresh} />
 
-        {bills.loading ? <SkeletonList count={10} /> : <p>{bills.show.id}</p>}
+        {bills.loading ? <SkeletonList count={10} /> : <p>{bills.item.id}</p>}
       </IonContent>
     </IonPage>
   );

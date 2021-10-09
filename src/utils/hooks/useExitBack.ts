@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { App as AppPlugin } from "@capacitor/app";
+import { App } from "@capacitor/app";
 import { useIonRouter, useIonToast } from "@ionic/react";
 
 export const useExitBack = () => {
+  const timePeriodToExit = 2000;
+  const tabRoutes = ["/", "/account", "/announcements", "/bills", "/dashboard", "/schedules"];
   const [lastBackPress, setLastBackPress] = useState<number>(0);
   const [presentToast] = useIonToast();
   const ionRouter = useIonRouter();
-  const timePeriodToExit = 2000;
-  const tabRoutes = ["/", "/account", "/announcements", "/bills", "/dashboard", "/schedules"];
 
   document.addEventListener("ionBackButton", (ev: any) => {
     ev.detail.register(1, () => {
       if (!ionRouter.canGoBack() || tabRoutes.includes(ionRouter.routeInfo.pathname)) {
         if (new Date().getTime() - lastBackPress < timePeriodToExit) {
-          AppPlugin.exitApp();
+          App.exitApp();
         } else {
           presentToast({
             duration: timePeriodToExit,
@@ -35,6 +35,4 @@ export const useExitBack = () => {
       }
     });
   });
-
-  return true;
 };

@@ -1,12 +1,11 @@
-import { deviceTypes } from "./types";
-import { authTypes } from "context/auth/types";
+import { authTypes, deviceTypes } from "states";
 
 const initialState: any = {
   name: "",
   deviceToken: null,
 };
 
-const reducer = (state: any, action: any) => {
+export const deviceReducer = (state: any = initialState, action: any) => {
   switch (action.type) {
     case deviceTypes.SET_DEVICE_NAME:
       return { ...state, ...action.payload };
@@ -19,9 +18,4 @@ const reducer = (state: any, action: any) => {
   }
 
   return state;
-};
-
-export const device = {
-  initialState,
-  reducer,
 };

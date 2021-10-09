@@ -1,9 +1,17 @@
-import { IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonPage } from "@ionic/react";
-import { SkeletonList, ScrollingContent, Refresher } from "components";
-import { billActions } from "context";
 import { useEffect, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { useContext, AppContext } from "State";
+import {
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+} from "@ionic/react";
+
+import { Refresher, ScrollingContent, SkeletonList } from "components";
+import { billActions, useAppDispatch, useAppSelector } from "states";
+
 import "./Bills.scss";
 
 interface Props extends RouteComponentProps<any> {
@@ -11,31 +19,37 @@ interface Props extends RouteComponentProps<any> {
 }
 
 export const Bills: React.FC<Props> = ({ history, ...props }) => {
-  const { state, dispatch } = useContext(AppContext);
-  const { bills } = state;
-  const infiniteScroll = useRef<any>();
+  const dispatch = useAppDispatch();
+  const { bills } = useAppSelector((state) => state);
+  const ionInfinite = useRef<any>();
   const [fetchNextSet, setFetchNextSet] = useState<boolean>(false);
 
   const doRefresh = (refresher: any) => {
-    infiniteScroll.current.disabled = false;
-    dispatch(billActions.fetch(refresher.detail));
+    ionInfinite.current.disabled = false;
+    dispatch(billActions.fetch()).then(() => refresher.detail.complete());
   };
 
   useEffect(() => dispatch(billActions.fetch()), []);
 
   useEffect(() => {
     if (bills.all?.nextPageUrl && fetchNextSet) {
-      dispatch(billActions.fetchMore(infiniteScroll.current, bills.all?.nextPageUrl));
+      dispatch(billActions.fetchMore(bills.all?.nextPageUrl)).then((response: any) => {
+        ionInfinite.current.complete();
+
+        if (!response.payload.nextPageUrl) {
+          ionInfinite.current.disabled = true;
+        }
+      });
       setFetchNextSet(false);
     }
   }, [bills.all.nextPageUrl, fetchNextSet]);
 
   useEffect(() => {
-    if (infiniteScroll.current) {
-      infiniteScroll.current.disabled = false;
-      infiniteScroll.current.addEventListener("ionInfinite", () => setFetchNextSet(true));
+    if (ionInfinite.current) {
+      ionInfinite.current.disabled = false;
+      ionInfinite.current.addEventListener("ionInfinite", () => setFetchNextSet(true));
     }
-  }, [infiniteScroll]);
+  }, [ionInfinite]);
 
   return (
     <IonPage>
@@ -59,7 +73,7 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
           </IonList>
         )}
 
-        <IonInfiniteScroll threshold="100px" ref={infiniteScroll}>
+        <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
           <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
         </IonInfiniteScroll>
       </ScrollingContent>

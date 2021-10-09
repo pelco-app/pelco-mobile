@@ -1,9 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IonContent, IonInput, IonItem, IonLabel, useIonLoading, useIonToast } from "@ionic/react";
 import { CupertinoPane } from "cupertino-pane";
+
 import { Button } from "components";
-import { AppContext } from "State";
-import { authActions } from "context";
+import { authActions, useAppDispatch, useAppSelector } from "states";
+
 import "./RegistrationPane.scss";
 
 interface Props {
@@ -26,14 +27,15 @@ export const RegistrationPane: React.FC<Props> = ({
   showPane,
 }) => {
   const maxInput = { billingReference: 11, mobileNumber: 12 };
-  const { state, dispatch } = useContext(AppContext);
-  const { auth } = state;
-  const [billingReference, setBillingReference] = useState<any>("");
-  const [drawer, setDrawer] = useState<any>(null);
-  const [isValidInput, setIsValidInput] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state);
+  const paneRef = useRef<any>();
   const [presentLoading, dismissLoading] = useIonLoading();
   const [, dismissToast] = useIonToast();
-  const paneRef = useRef<any>(null);
+  const [billingReference, setBillingReference] = useState<any>("");
+  const [isValidInput, setIsValidInput] = useState<boolean>(false);
+  const [drawer, setDrawer] = useState<any>(null);
+
   const settings = {
     backdrop: true,
     darkMode: true,

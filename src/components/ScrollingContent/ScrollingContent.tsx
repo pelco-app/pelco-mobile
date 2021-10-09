@@ -10,11 +10,7 @@ interface Props extends RouteComponentProps<any> {
 export const ScrollingContent: React.FC<Props> = ({ title, scrollToTop, children }) => {
   const ionContent = useRef<any>();
 
-  useEffect(() => {
-    if (scrollToTop > 0) {
-      ionContent.current.scrollToTop(500);
-    }
-  }, [scrollToTop]);
+  useEffect(() => scrollToTop > 0 && ionContent.current.scrollToTop(500), [scrollToTop]);
 
   return (
     <>

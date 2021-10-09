@@ -1,6 +1,6 @@
 import http from "utils/http";
 
-const setDeviceToken = (token: string) => {
+export const setDeviceToken = (token: string) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/user/token", { token });
@@ -9,8 +9,4 @@ const setDeviceToken = (token: string) => {
       reject(error);
     }
   });
-};
-
-export const deviceService = {
-  setDeviceToken,
 };

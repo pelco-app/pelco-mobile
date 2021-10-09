@@ -1,7 +1,6 @@
-import { billService } from "./services";
-import { billTypes } from "./types";
+import { billServices, billTypes } from "states";
 
-const fetch = (ionRefresher?: any) => {
+export const fetch = () => {
   const request = () => ({ type: billTypes.FETCH_BILLS_REQUEST });
   const success = (data: any) => ({ type: billTypes.FETCH_BILLS_SUCCESS, payload: { ...data } });
   const failure = (data: any) => ({ type: billTypes.FETCH_BILLS_FAILURE, payload: { ...data } });
@@ -9,20 +8,14 @@ const fetch = (ionRefresher?: any) => {
   return (dispatch: Function) => {
     dispatch(request());
 
-    return billService
+    return billServices
       .fetch()
-      .then((response: any) => {
-        dispatch(success(response));
-
-        if (ionRefresher) {
-          ionRefresher.complete();
-        }
-      })
+      .then((response: any) => dispatch(success(response)))
       .catch((error) => dispatch(failure(error)));
   };
 };
 
-const fetchMore = (ionScroll?: any, url?: string) => {
+export const fetchMore = (url?: string) => {
   const request = () => ({ type: billTypes.FETCH_MORE_BILLS_REQUEST });
   const success = (data: any) => ({ type: billTypes.FETCH_MORE_BILLS_SUCCESS, payload: { ...data } });
   const failure = (data: any) => ({ type: billTypes.FETCH_MORE_BILLS_FAILURE, payload: { ...data } });
@@ -30,24 +23,14 @@ const fetchMore = (ionScroll?: any, url?: string) => {
   return (dispatch: Function) => {
     dispatch(request());
 
-    return billService
+    return billServices
       .fetch(url)
-      .then((response: any) => {
-        dispatch(success(response));
-
-        if (ionScroll) {
-          ionScroll.complete();
-
-          if (!response?.nextPageUrl) {
-            ionScroll.disabled = true;
-          }
-        }
-      })
+      .then((response: any) => dispatch(success(response)))
       .catch((error) => dispatch(failure(error)));
   };
 };
 
-const get = (id: number, ionRefresher?: any) => {
+export const get = (id: number, ionRefresher?: any) => {
   const request = (id: number) => ({ type: billTypes.GET_BILL_REQUEST, payload: { id } });
   const success = (data: any) => ({ type: billTypes.GET_BILL_SUCCESS, payload: { ...data } });
   const failure = (data: any) => ({ type: billTypes.GET_BILL_FAILURE, payload: { ...data } });
@@ -55,7 +38,7 @@ const get = (id: number, ionRefresher?: any) => {
   return (dispatch: Function) => {
     dispatch(request(id));
 
-    return billService
+    return billServices
       .get(id)
       .then((response) => {
         dispatch(success(response));
@@ -66,10 +49,4 @@ const get = (id: number, ionRefresher?: any) => {
       })
       .catch((error) => dispatch(failure(error)));
   };
-};
-
-export const billActions = {
-  fetch,
-  fetchMore,
-  get,
 };

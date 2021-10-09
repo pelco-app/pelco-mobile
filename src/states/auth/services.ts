@@ -1,6 +1,6 @@
 import http from "utils/http";
 
-const check = (data: any) => {
+export const check = (data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/check", data);
@@ -11,13 +11,13 @@ const check = (data: any) => {
   });
 };
 
-const current = () => {
+export const current = () => {
   return http.get("/user").then((res) => {
     return res.data;
   });
 };
 
-const logout = (deviceToken: string) => {
+export const logout = (deviceToken: string) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/logout", { deviceToken });
@@ -28,7 +28,7 @@ const logout = (deviceToken: string) => {
   });
 };
 
-const register = (data: any) => {
+export const register = (data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/register", data);
@@ -39,7 +39,7 @@ const register = (data: any) => {
   });
 };
 
-const update = (data: any) => {
+export const update = (data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/update", data);
@@ -50,7 +50,7 @@ const update = (data: any) => {
   });
 };
 
-const updateResend = (data: any) => {
+export const updateResend = (data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/update/resend", data);
@@ -61,7 +61,7 @@ const updateResend = (data: any) => {
   });
 };
 
-const updateVerify = (data: any) => {
+export const updateVerify = (data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/update/verify", data);
@@ -72,7 +72,7 @@ const updateVerify = (data: any) => {
   });
 };
 
-const verify = (data: any) => {
+export const verify = (data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data: response } = await http.post("/auth/verify", data);
@@ -81,15 +81,4 @@ const verify = (data: any) => {
       reject(error);
     }
   });
-};
-
-export const authService = {
-  check,
-  current,
-  logout,
-  register,
-  update,
-  updateResend,
-  updateVerify,
-  verify,
 };

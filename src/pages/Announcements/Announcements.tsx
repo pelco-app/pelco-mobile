@@ -1,6 +1,8 @@
-import { IonPage } from "@ionic/react";
-import { ExploreContainer, ScrollingContent } from "components";
 import { RouteComponentProps } from "react-router-dom";
+import { IonPage } from "@ionic/react";
+
+import { ExploreContainer, ScrollingContent } from "components";
+
 import "./Announcements.scss";
 
 interface Props extends RouteComponentProps<any> {

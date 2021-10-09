@@ -1,7 +1,8 @@
-import { IonPage } from "@ionic/react";
-import { ScrollingContent } from "components";
 import { RouteComponentProps } from "react-router-dom";
-import { AppContext, useContext } from "State";
+import { IonPage } from "@ionic/react";
+
+import { ScrollingContent } from "components";
+
 import "./Dashboard.scss";
 
 interface Props extends RouteComponentProps<any> {
@@ -9,8 +10,6 @@ interface Props extends RouteComponentProps<any> {
 }
 
 export const Dashboard: React.FC<Props> = (props) => {
-  const { state } = useContext(AppContext);
-
   return (
     <IonPage>
       <ScrollingContent {...props} title="Dashboard"></ScrollingContent>

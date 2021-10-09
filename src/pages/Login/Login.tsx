@@ -1,29 +1,31 @@
 import { useEffect, useState } from "react";
 import {
-  IonContent,
   IonButton,
-  IonToolbar,
-  IonPage,
   IonButtons,
-  IonIcon,
   IonCard,
   IonCardContent,
+  IonContent,
+  IonIcon,
   IonLabel,
-  useIonToast,
+  IonPage,
+  IonToolbar,
   useIonLoading,
+  useIonToast,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
-import { AppContext, useContext } from "State";
-import { authActions } from "context";
+
 import { Button, OtpInput, OtpPane, RegistrationPane } from "components";
+import { authActions, useAppDispatch, useAppSelector } from "states";
+
 import "./Login.scss";
 
 interface Props {}
 
 export const Login: React.FC<Props> = () => {
   const maxInput: number = 8;
-  const { state, dispatch } = useContext(AppContext);
-  const { auth } = state;
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state);
+  const [presentToast, dismissToast] = useIonToast();
   const [accountNumber, setAccountNumber] = useState<any>("");
   const [mobileNumber, setMobileNumber] = useState<any>("");
   const [hasError, setHasError] = useState<boolean>(false);
@@ -31,7 +33,7 @@ export const Login: React.FC<Props> = () => {
   const [showOtp, setShowOtp] = useState<boolean>(false);
   const [showRegistration, setShowRegistration] = useState<boolean>(false);
   const [presentLoading, dismissLoading] = useIonLoading();
-  const [presentToast, dismissToast] = useIonToast();
+
   const showWelcomeScreen = () => dispatch(authActions.welcome(true));
 
   const proceedCheck = (reset?: boolean) => {

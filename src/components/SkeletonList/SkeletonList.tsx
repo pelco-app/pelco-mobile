@@ -1,5 +1,4 @@
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonSkeletonText, IonTitle, IonToolbar } from "@ionic/react";
-import { Children, useEffect, useRef } from "react";
+import { IonItem, IonLabel, IonList, IonSkeletonText } from "@ionic/react";
 
 interface Props {
   count: number;
@@ -17,13 +16,13 @@ export const SkeletonList: React.FC<Props> = ({ count }) => {
             </div>
             <IonLabel>
               <h2>
-                <IonSkeletonText animated style={{ width: "20%" }} />
+                <IonSkeletonText animated style={{ width: "25%" }} />
               </h2>
               <p>
-                <IonSkeletonText animated style={{ width: "15%" }} />
+                <IonSkeletonText animated style={{ width: "20%" }} />
               </p>
               <p>
-                <IonSkeletonText animated style={{ width: "25%" }} />
+                <IonSkeletonText animated style={{ width: "30%" }} />
               </p>
             </IonLabel>
           </IonItem>

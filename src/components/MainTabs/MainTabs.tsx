@@ -1,21 +1,31 @@
-import { useRef, useState } from "react";
-import { IonBadge, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
+import React, { useRef, useState } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { barChartOutline, calendarOutline, megaphoneOutline, personOutline, receiptOutline } from "ionicons/icons";
-import { useContext, AppContext } from "State";
-import { Account, Announcements, Bills, Bill, Dashboard, Schedules } from "pages";
+import { IonBadge, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
+import {
+  barChartOutline,
+  calendarOutline,
+  megaphoneOutline,
+  personOutline,
+  receiptOutline,
+} from "ionicons/icons";
+
+import { Account, Announcements, Bill, Bills, Dashboard, Schedules } from "pages";
 import { OtpPane, RegistrationPane } from "components";
+import { useAppSelector } from "states";
+
 import "./MainTabs.scss";
 
 interface Props {}
 
 export const MainTabs: React.FC<Props> = () => {
-  const { state } = useContext(AppContext);
-  const { announcements, bills, dashboard, schedules } = state;
+  const announcements: any = {};
+  const dashboard: any = {};
+  const schedules: any = {};
+  const { bills } = useAppSelector((state) => state);
+  const ionTabBar = useRef<any>();
+  const [mobileNumber, setMobileNumber] = useState<string>("");
   const [showOtp, setShowOtp] = useState<boolean>(false);
   const [showRegistration, setShowRegistration] = useState<boolean>(false);
-  const [mobileNumber, setMobileNumber] = useState<any>("");
-  const ionTabBar = useRef<any>();
   const [scrollToTop, doScrollToTop] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<string>("dashboard");
 
@@ -26,20 +36,36 @@ export const MainTabs: React.FC<Props> = () => {
     setActiveTab(ionTabBar.current?.ionTabContextState?.activeTab);
   };
 
+  const displayNotificationBadge = (feat: any): JSX.Element => {
+    if (feat?.unreadNotificationCount > 0) {
+      return <IonBadge color="danger">{feat.unreadNotificationCount}</IonBadge>;
+    }
+
+    return <></>;
+  };
+
   return (
     <>
       <IonTabs ref={ionTabBar}>
         <IonRouterOutlet>
           <Redirect exact path="/" to="/dashboard" />
-          <Route exact path="/dashboard" render={(props) => <Dashboard {...props} scrollToTop={scrollToTop} />} />
+          <Route
+            exact
+            path="/dashboard"
+            render={(props) => <Dashboard {...props} scrollToTop={scrollToTop} />}
+          />
           <Route exact path="/bills" render={(props) => <Bills {...props} scrollToTop={scrollToTop} />} />
-          <Route exact path="/bills/:id" render={(props) => <Bill {...props} scrollToTop={scrollToTop} />} />
+          <Route exact path="/bills/:id" render={(props) => <Bill {...props} />} />
           <Route
             exact
             path="/announcements"
             render={(props) => <Announcements {...props} scrollToTop={scrollToTop} />}
           />
-          <Route exact path="/schedules" render={(props) => <Schedules {...props} scrollToTop={scrollToTop} />} />
+          <Route
+            exact
+            path="/schedules"
+            render={(props) => <Schedules {...props} scrollToTop={scrollToTop} />}
+          />
           <Route
             exact
             path="/account"
@@ -47,8 +73,8 @@ export const MainTabs: React.FC<Props> = () => {
               <Account
                 {...props}
                 scrollToTop={scrollToTop}
-                setShowRegistration={setShowRegistration}
                 setShowOtp={setShowOtp}
+                setShowRegistration={setShowRegistration}
               />
             )}
           />
@@ -58,29 +84,27 @@ export const MainTabs: React.FC<Props> = () => {
           <IonTabButton tab="dashboard" href="/dashboard">
             <IonIcon icon={barChartOutline} />
             <IonLabel>Dashboard</IonLabel>
-            {dashboard?.unreadNotificationCount > 0 && (
-              <IonBadge color="danger">{dashboard.unreadNotificationCount}</IonBadge>
-            )}
+            {displayNotificationBadge(dashboard)}
           </IonTabButton>
+
           <IonTabButton tab="bills" href="/bills">
             <IonIcon icon={receiptOutline} />
             <IonLabel>Bills</IonLabel>
-            {bills?.unreadNotificationCount > 0 && <IonBadge color="danger">{bills.unreadNotificationCount}</IonBadge>}
+            {displayNotificationBadge(bills)}
           </IonTabButton>
+
           <IonTabButton tab="announcements" href="/announcements">
             <IonIcon icon={megaphoneOutline} />
             <IonLabel>Announcements</IonLabel>
-            {announcements?.unreadNotificationCount > 0 && (
-              <IonBadge color="danger">{announcements.unreadNotificationCount}</IonBadge>
-            )}
+            {displayNotificationBadge(announcements)}
           </IonTabButton>
+
           <IonTabButton tab="schedules" href="/schedules">
             <IonIcon icon={calendarOutline} />
             <IonLabel>Schedules</IonLabel>
-            {schedules?.unreadNotificationCount > 0 && (
-              <IonBadge color="danger">{schedules.unreadNotificationCount}</IonBadge>
-            )}
+            {displayNotificationBadge(schedules)}
           </IonTabButton>
+
           <IonTabButton tab="account" href="/account">
             <IonIcon icon={personOutline} />
             <IonLabel>Account</IonLabel>

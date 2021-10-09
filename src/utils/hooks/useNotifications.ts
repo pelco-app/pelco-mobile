@@ -1,11 +1,14 @@
-import { useIonRouter } from "@ionic/react";
-import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from "@capacitor/push-notifications";
-import { deviceActions } from "context";
-import { useContext, AppContext } from "State";
-import { isPlatform } from "@ionic/react";
+import { isPlatform, useIonRouter } from "@ionic/react";
+import {
+  ActionPerformed,
+  PushNotifications,
+  PushNotificationSchema,
+  Token,
+} from "@capacitor/push-notifications";
+import { deviceActions, useAppDispatch } from "states";
 
 export const useNotifications = () => {
-  const { dispatch } = useContext(AppContext);
+  const dispatch = useAppDispatch();
   const ionRouter = useIonRouter();
 
   const registerNotificationListeners = async () => {
