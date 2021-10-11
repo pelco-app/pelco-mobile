@@ -21,7 +21,7 @@ export const NetworkStatus: React.FC = () => {
     <>
       {offline && (
         <div className={networkStatus.connected ? "online" : "offline"}>
-          <p>{networkStatus.connected ? "CONNECTED" : "NO NETWORK"}</p>
+          <p>{networkStatus.connected ? `Connected to ${networkStatus.connectionType}` : "No network"}</p>
         </div>
       )}
     </>

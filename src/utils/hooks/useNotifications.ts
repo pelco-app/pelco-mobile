@@ -43,7 +43,7 @@ export const useNotifications = () => {
 };
 
 export const removeNotificationListeners = async () => {
-  if (isPlatform("android")) {
+  if (isPlatform("capacitor")) {
     await PushNotifications.removeAllListeners();
   }
 };

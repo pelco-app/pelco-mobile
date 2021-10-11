@@ -30,7 +30,7 @@ export const fetchMore = (url?: string) => {
   };
 };
 
-export const get = (id: number, ionRefresher?: any) => {
+export const get = (id: number) => {
   const request = (id: number) => ({ type: billTypes.GET_BILL_REQUEST, payload: { id } });
   const success = (data: any) => ({ type: billTypes.GET_BILL_SUCCESS, payload: { ...data } });
   const failure = (data: any) => ({ type: billTypes.GET_BILL_FAILURE, payload: { ...data } });
@@ -40,13 +40,7 @@ export const get = (id: number, ionRefresher?: any) => {
 
     return billServices
       .get(id)
-      .then((response) => {
-        dispatch(success(response));
-
-        if (ionRefresher) {
-          ionRefresher.complete();
-        }
-      })
+      .then((response) => dispatch(success(response)))
       .catch((error) => dispatch(failure(error)));
   };
 };

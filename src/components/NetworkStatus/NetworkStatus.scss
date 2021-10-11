@@ -3,7 +3,7 @@
   position: fixed;
   z-index: 1;
   font-size: 10px;
-  bottom: 0;
+  top: 0;
   width: 100%;
   text-align: center;
 
@@ -11,7 +11,9 @@
     margin: 0;
     font-size: 10px;
     font-weight: bold;
+    color: var(--ion-color-dark);
     letter-spacing: 2px;
+    text-transform: uppercase;
   }
 }
 

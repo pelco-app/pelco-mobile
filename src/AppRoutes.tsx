@@ -32,7 +32,7 @@ const AppRoutes: React.FC = () => {
   }, [isMounted]);
 
   useEffect(() => {
-    if (auth.token && isPlatform("android")) {
+    if (auth.token && isPlatform("capacitor")) {
       registerNotificationListeners();
     }
   }, [auth.token]);

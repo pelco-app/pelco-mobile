@@ -22,19 +22,19 @@ export const Bill: React.FC<Props> = ({ match }) => {
   const { bills } = useAppSelector((state) => state);
 
   const doRefresh = (refresher: any) => {
-    dispatch(billActions.get(match.params.id, refresher.detail));
+    dispatch(billActions.get(match.params.id)).then(() => refresher.detail.complete());
   };
 
   useEffect(() => dispatch(billActions.get(match.params.id)), [match.params.id]);
 
   return (
     <IonPage>
-      <IonHeader collapse="condense">
+      <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle size="small">Bill {match.params.id}</IonTitle>
+          <IonTitle>{match.params.id}</IonTitle>
         </IonToolbar>
       </IonHeader>
 

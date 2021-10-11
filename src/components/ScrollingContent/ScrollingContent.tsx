@@ -14,9 +14,9 @@ export const ScrollingContent: React.FC<Props> = ({ title, scrollToTop, children
 
   return (
     <>
-      <IonHeader collapse="condense">
+      <IonHeader>
         <IonToolbar>
-          <IonTitle size="small">{title}</IonTitle>
+          <IonTitle>{title}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
