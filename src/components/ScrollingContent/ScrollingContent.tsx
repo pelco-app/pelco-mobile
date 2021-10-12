@@ -1,6 +1,6 @@
-import { IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 import { Children, useEffect, useRef } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 
 interface Props extends RouteComponentProps<any> {
   scrollToTop: number;

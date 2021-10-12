@@ -27,3 +27,12 @@ export const markAsRead = (array: any[], id: number) => {
 export const arrayDiff = (firstArray: any[], secondArray: any[]) => {
   return firstArray.filter((x) => !secondArray.includes(x));
 };
+
+export const groupByArray = (xs: any, key: any): any[] => {
+  return xs.reduce(function (rv: any, x: any) {
+    const v = key instanceof Function ? key(x) : x[key];
+    const el = rv.find((r: any) => r && r.key === v);
+    el ? el.values.push(x) : rv.push({ key: v, values: [x] });
+    return rv;
+  }, []);
+};

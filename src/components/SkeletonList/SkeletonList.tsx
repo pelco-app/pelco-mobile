@@ -1,12 +1,18 @@
-import { IonItem, IonLabel, IonList, IonSkeletonText } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonListHeader, IonSkeletonText } from "@ionic/react";
 
 interface Props {
   count: number;
+  hasHeader: boolean;
 }
 
-export const SkeletonList: React.FC<Props> = ({ count }) => {
+export const SkeletonList: React.FC<Props> = ({ count, hasHeader }) => {
   return (
     <IonList>
+      {hasHeader && (
+        <IonListHeader>
+          <IonSkeletonText animated style={{ width: "50%" }} />
+        </IonListHeader>
+      )}
       {Array(count)
         .fill(null)
         .map((val, index) => (

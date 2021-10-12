@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import {
   IonInfiniteScroll,
@@ -6,6 +6,7 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonListHeader,
   IonPage,
 } from "@ionic/react";
 
@@ -13,6 +14,7 @@ import { Refresher, ScrollingContent, SkeletonList } from "components";
 import { billActions, useAppDispatch, useAppSelector } from "states";
 
 import "./Bills.scss";
+import { groupByArray } from "utils/helpers";
 
 interface Props extends RouteComponentProps<any> {
   scrollToTop: number;
@@ -55,19 +57,36 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
       <ScrollingContent {...props} history={history} title="Bills">
         <Refresher onRefresh={doRefresh} />
 
-        {bills.loading ? (
-          <SkeletonList count={10} />
+        {bills.loading && history.location.pathname === "/bills" ? (
+          <SkeletonList count={10} hasHeader />
         ) : (
           <IonList>
-            {bills.all?.data?.map((billingData: any) => (
-              <IonItem key={billingData.id} onClick={() => history?.push(`/bills/${billingData.id}`)}>
-                <div slot="start" className={`badge ${billingData.unread ? "unread" : ""}`}></div>
-                <IonLabel>
-                  <h2>{billingData.billingMonth}</h2>
-                  <p>{billingData.billingReference}</p>
-                  <p>Due Date: {billingData.dueDate}</p>
-                </IonLabel>
-              </IonItem>
+            {groupByArray(bills.all?.data, "billingYear").map((group, index) => (
+              <React.Fragment key={index}>
+                <IonListHeader>
+                  <IonLabel>{group.key}</IonLabel>
+                </IonListHeader>
+                {group.values?.map((billingData: any, index: number) => (
+                  <IonItem
+                    button
+                    className={billingData.unread ? "unread" : ""}
+                    key={billingData.id}
+                    lines={index === group.values.length - 1 ? "none" : "inset"}
+                    routerLink={`/bills/${billingData.id}`}
+                  >
+                    <div slot="start" className="badge"></div>
+                    <IonLabel className="ion-text-wrap">
+                      <h3>{billingData.billingMonth}</h3>
+                      {billingData.totalAmountDue > 0 && (
+                        <>
+                          <p>Due Date: {billingData.dueDate}</p>
+                          <p>Amount Due: ₱{billingData.totalAmountDue}</p>
+                        </>
+                      )}
+                    </IonLabel>
+                  </IonItem>
+                ))}
+              </React.Fragment>
             ))}
           </IonList>
         )}
