@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IonContent, IonInput, IonItem, IonLabel, useIonLoading, useIonToast } from "@ionic/react";
+import { IonContent, IonInput, IonItem, IonLabel, useIonLoading } from "@ionic/react";
 import { CupertinoPane } from "cupertino-pane";
 
 import { Button } from "components";
@@ -31,7 +31,6 @@ export const RegistrationPane: React.FC<Props> = ({
   const { auth } = useAppSelector((state) => state);
   const paneRef = useRef<any>();
   const [presentLoading, dismissLoading] = useIonLoading();
-  const [, dismissToast] = useIonToast();
   const [billingReference, setBillingReference] = useState<any>("");
   const [isValidInput, setIsValidInput] = useState<boolean>(false);
   const [drawer, setDrawer] = useState<any>(null);
@@ -49,7 +48,6 @@ export const RegistrationPane: React.FC<Props> = ({
   };
 
   const proceed = () => {
-    dismissToast();
     presentLoading({ message: "Please wait..." });
     if (accountNumber) {
       dispatch(authActions.register({ accountNumber, billingReference, mobileNumber }));

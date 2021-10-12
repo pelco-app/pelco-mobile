@@ -10,7 +10,6 @@ import {
   IonPage,
   IonToolbar,
   useIonLoading,
-  useIonToast,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
@@ -24,8 +23,7 @@ interface Props {}
 export const Login: React.FC<Props> = () => {
   const maxInput: number = 8;
   const dispatch = useAppDispatch();
-  const { auth } = useAppSelector((state) => state);
-  const [presentToast, dismissToast] = useIonToast();
+  const { auth, messages } = useAppSelector((state) => state);
   const [accountNumber, setAccountNumber] = useState<any>("");
   const [mobileNumber, setMobileNumber] = useState<any>("");
   const [hasError, setHasError] = useState<boolean>(false);
@@ -37,7 +35,6 @@ export const Login: React.FC<Props> = () => {
   const showWelcomeScreen = () => dispatch(authActions.welcome(true));
 
   const proceedCheck = (reset?: boolean) => {
-    dismissToast();
     presentLoading({ message: "Please wait..." });
     dispatch(authActions.check({ accountNumber, reset }));
   };
@@ -70,16 +67,10 @@ export const Login: React.FC<Props> = () => {
   }, [auth.isRegistrationSuccess]);
 
   useEffect(() => {
-    if (auth.error) {
+    if (messages.error) {
       !showOtp && !showRegistration && setHasError(true);
-      presentToast({ duration: 3000, message: auth.error, color: "dark" });
-      dispatch(authActions.reset("error"));
-    } else if (auth.message) {
-      presentToast({ duration: 3000, message: auth.message, color: "dark" });
-      dispatch(authActions.reset("message"));
     }
-    dismissLoading();
-  }, [auth.error, auth.message]);
+  }, [messages.error]);
 
   useEffect((): any => {
     !auth.loading && setTimeout(() => dismissLoading(), 100);

@@ -17,11 +17,7 @@ export const billsReducer = (state: any = initialState, action: any) => {
     case billTypes.FETCH_BILLS_FAILURE:
     case billTypes.FETCH_MORE_BILLS_FAILURE:
     case billTypes.GET_BILL_FAILURE:
-      return {
-        ...state,
-        error: action.payload.message || "Network error. Please try again.",
-        loading: false,
-      };
+      return { ...state, loading: false };
 
     case billTypes.FETCH_BILLS_SUCCESS:
       return {

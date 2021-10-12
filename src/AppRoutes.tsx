@@ -6,12 +6,13 @@ import { Device } from "@capacitor/device";
 import { Login, Welcome } from "pages";
 import { MainTabs } from "components";
 import { deviceActions, useAppDispatch, useAppSelector } from "states";
-import { useExitBack, useIsMounted, useNotifications, usePersistentState } from "utils/hooks";
+import { useExitBack, useIsMounted, useMessages, useNotifications, usePersistentState } from "utils/hooks";
 
 import "styles/app.scss";
 
 const AppRoutes: React.FC = () => {
   useExitBack();
+  useMessages();
   usePersistentState();
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state);

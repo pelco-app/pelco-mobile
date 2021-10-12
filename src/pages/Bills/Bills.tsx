@@ -25,8 +25,10 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
   const [fetchNextSet, setFetchNextSet] = useState<boolean>(false);
 
   const doRefresh = (refresher: any) => {
-    ionInfinite.current.disabled = false;
-    dispatch(billActions.fetch()).then(() => refresher.detail.complete());
+    dispatch(billActions.fetch()).then((response: any) => {
+      refresher.detail.complete();
+      ionInfinite.current.disabled = !response.payload.nextPageUrl;
+    });
   };
 
   useEffect(() => dispatch(billActions.fetch()), []);
@@ -35,10 +37,7 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
     if (bills.all?.nextPageUrl && fetchNextSet) {
       dispatch(billActions.fetchMore(bills.all?.nextPageUrl)).then((response: any) => {
         ionInfinite.current.complete();
-
-        if (!response.payload.nextPageUrl) {
-          ionInfinite.current.disabled = true;
-        }
+        ionInfinite.current.disabled = !response.payload.nextPageUrl;
       });
       setFetchNextSet(false);
     }

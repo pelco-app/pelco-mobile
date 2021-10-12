@@ -34,7 +34,7 @@ export const Bill: React.FC<Props> = ({ match }) => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>{match.params.id}</IonTitle>
+          <IonTitle>{bills.item.billingMonth}</IonTitle>
         </IonToolbar>
       </IonHeader>
 

@@ -15,9 +15,8 @@ interface Props extends RouteComponentProps<any> {
 
 export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...props }) => {
   const dispatch = useAppDispatch();
-  const { auth, device } = useAppSelector((state) => state);
+  const { auth, device, messages } = useAppSelector((state) => state);
   const [, dismissLoading] = useIonLoading();
-  const [presentToast] = useIonToast();
 
   useEffect((): any => {
     if (auth.isUpdateVerification) {
@@ -35,15 +34,8 @@ export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...p
   }, [auth.isUpdateSuccess]);
 
   useEffect(() => {
-    if (auth.error) {
-      presentToast({ duration: 3000, message: auth.error, color: "dark" });
-      dispatch(authActions.reset("error"));
-    } else if (auth.message) {
-      presentToast({ duration: 3000, message: auth.message, color: "dark" });
-      dispatch(authActions.reset("message"));
-    }
     dismissLoading();
-  }, [auth.error, auth.message]);
+  }, [messages]);
 
   return (
     <IonPage>

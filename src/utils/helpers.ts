@@ -23,3 +23,7 @@ export const markAsRead = (array: any[], id: number) => {
     return obj;
   });
 };
+
+export const arrayDiff = (firstArray: any[], secondArray: any[]) => {
+  return firstArray.filter((x) => !secondArray.includes(x));
+};

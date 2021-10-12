@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IonContent, useIonLoading, useIonToast } from "@ionic/react";
+import { IonContent, useIonLoading } from "@ionic/react";
 import { CupertinoPane } from "cupertino-pane";
 import { useInterval } from "usehooks-ts";
 
@@ -26,10 +26,9 @@ export const OtpPane: React.FC<Props> = ({
   const maxInput: number = 6;
   const resendCooldown: number = 60;
   const dispatch = useAppDispatch();
-  const { auth, device } = useAppSelector((state) => state);
+  const { auth, device, messages } = useAppSelector((state) => state);
   const paneRef = useRef<any>();
   const [presentLoading, dismissLoading] = useIonLoading();
-  const [, dismissToast] = useIonToast();
   const [cooldown, setCooldown] = useState<number>(resendCooldown);
   const [canResend, setCanResend] = useState<boolean>(true);
   const [pin, setPin] = useState<string>("");
@@ -48,7 +47,6 @@ export const OtpPane: React.FC<Props> = ({
   };
 
   const proceed = (resend?: boolean) => {
-    dismissToast();
     presentLoading({ message: "Please wait..." });
     if (resend) {
       setCanResend(false);
@@ -82,9 +80,9 @@ export const OtpPane: React.FC<Props> = ({
   }, [auth.loading]);
 
   useEffect(() => {
-    auth.error && showPane && setPin("");
+    messages.error && showPane && setPin("");
     dismissLoading();
-  }, [auth.error]);
+  }, [messages]);
 
   useEffect(() => {
     setDrawer(!!paneRef?.current ? new CupertinoPane(paneRef.current, settings) : null);

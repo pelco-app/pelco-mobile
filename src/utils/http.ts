@@ -1,6 +1,9 @@
 import { Storage } from "@capacitor/storage";
 import axios from "axios";
 
+import store from "store";
+import { authActions, messagesActions } from "states";
+
 const instance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api`,
 });
@@ -8,12 +11,20 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (config) => {
     try {
+      const { messages } = store.getState();
       const { value } = await Storage.get({ key: "persistedState" });
-      const states = value ? JSON.parse(value) : {};
-      if (states?.auth?.token) {
-        const [, token] = states.auth.token.split("|");
-        config.headers.Authorization = `Bearer ${token}`;
+      const state = value ? JSON.parse(value) : {};
+
+      if (state.auth?.token) {
+        config.headers.Authorization = `Bearer ${state.auth.token}`;
       }
+
+      if (messages.success) {
+        store.dispatch(messagesActions.hideSuccess());
+      } else if (messages.error) {
+        store.dispatch(messagesActions.hideError());
+      }
+
       return config;
     } catch (error) {
       console.log(error);
@@ -23,9 +34,25 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-  (response) => response,
+  (response: any) => {
+    const { data } = response;
+
+    if (data.message) {
+      store.dispatch(messagesActions.setSuccess(data.message));
+    }
+
+    return response;
+  },
   ({ response }) => {
     const message = getMessage({ response, success: false });
+    const { auth } = store.getState();
+
+    store.dispatch(messagesActions.setError(message));
+
+    if (auth.isLoggedIn && response?.status === 401) {
+      store.dispatch(authActions.forceLogout());
+    }
+
     return Promise.reject({ message });
   }
 );
@@ -38,12 +65,16 @@ const validateErrors = (errors: any) => {
 };
 
 const getMessage = (data: any) => {
-  if (!data.success) {
-    if (data.response && data.response.data.errors) {
-      return validateErrors(data.response.data.errors).join("\n");
-    } else {
-      return data.response.data.message;
+  try {
+    if (!data.success) {
+      if (data.response && data.response.data.errors) {
+        return validateErrors(data.response.data.errors).join("\n");
+      } else {
+        return data.response.data.message;
+      }
     }
+  } catch (error) {
+    return "Network error. Please try again.";
   }
 };
 

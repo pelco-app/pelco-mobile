@@ -29,11 +29,7 @@ export const authReducer = (state: any = initialState, action: any) => {
     case authTypes.REGISTER_FAILURE:
     case authTypes.UPDATE_FAILURE:
     case authTypes.UPDATE_VERIFY_FAILURE:
-      return {
-        ...state,
-        error: action.payload.message || "Network error. Please try again.",
-        loading: false,
-      };
+      return { ...state, loading: false };
 
     case authTypes.CHECK_SUCCESS:
       return {
@@ -45,7 +41,6 @@ export const authReducer = (state: any = initialState, action: any) => {
     case authTypes.OTP_SUCCESS:
       return {
         ...state,
-        message: action.payload.message,
         loading: false,
       };
 
@@ -53,7 +48,6 @@ export const authReducer = (state: any = initialState, action: any) => {
       return {
         ...state,
         isRegistrationSuccess: true,
-        message: action.payload.message,
         loading: false,
       };
 
@@ -69,7 +63,6 @@ export const authReducer = (state: any = initialState, action: any) => {
       return {
         ...state,
         isUpdateVerification: true,
-        message: action.payload.message,
         loading: false,
       };
 
@@ -77,11 +70,11 @@ export const authReducer = (state: any = initialState, action: any) => {
       return {
         ...state,
         isUpdateSuccess: true,
-        message: action.payload.message,
         loading: false,
       };
 
     case authTypes.LOGOUT:
+    case authTypes.FORCE_LOGOUT:
       return { ...initialState, isFirstStart: false };
   }
 

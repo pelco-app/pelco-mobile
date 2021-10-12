@@ -26,7 +26,10 @@ export const verify = (data: any) => {
 
     return authServices
       .verify(data)
-      .then((response) => dispatch(success(response)))
+      .then((response: any) => {
+        const [, token] = response.token.split("|");
+        dispatch(success({ token }));
+      })
       .catch((error) => dispatch(failure(error)));
   };
 };
@@ -35,6 +38,11 @@ export const logout = (deviceToken: string) => {
   removeNotificationListeners();
   authServices.logout(deviceToken);
   return { type: authTypes.LOGOUT };
+};
+
+export const forceLogout = () => {
+  removeNotificationListeners();
+  return { type: authTypes.FORCE_LOGOUT };
 };
 
 export const register = (data: any) => {
