@@ -1,0 +1,7 @@
+.account-page {
+  .card-content {
+    .item::part(native) {
+      padding: 0;
+    }
+  }
+}

@@ -11,12 +11,6 @@ export const check = (data: any) => {
   });
 };
 
-export const current = () => {
-  return http.get("/user").then((res) => {
-    return res.data;
-  });
-};
-
 export const logout = (deviceToken: string) => {
   return new Promise(async (resolve, reject) => {
     try {

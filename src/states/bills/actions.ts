@@ -1,4 +1,4 @@
-import { billServices, billTypes } from "states";
+import { accountActions, billServices, billTypes } from "states";
 
 export const fetch = () => {
   const request = () => ({ type: billTypes.FETCH_BILLS_REQUEST });
@@ -7,6 +7,7 @@ export const fetch = () => {
 
   return (dispatch: Function) => {
     dispatch(request());
+    dispatch(accountActions.unreadNotificationCount());
 
     return billServices
       .fetch()

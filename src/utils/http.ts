@@ -11,12 +11,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (config) => {
     try {
-      const { messages } = store.getState();
-      const { value } = await Storage.get({ key: "persistedState" });
-      const state = value ? JSON.parse(value) : {};
+      const { auth, messages } = store.getState();
 
-      if (state.auth?.token) {
-        config.headers.Authorization = `Bearer ${state.auth.token}`;
+      if (auth?.token) {
+        config.headers.Authorization = `Bearer ${auth.token}`;
       }
 
       if (messages.success) {

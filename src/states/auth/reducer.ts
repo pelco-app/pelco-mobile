@@ -73,8 +73,7 @@ export const authReducer = (state: any = initialState, action: any) => {
         loading: false,
       };
 
-    case authTypes.LOGOUT:
-    case authTypes.FORCE_LOGOUT:
+    case authTypes.LOGOUT_SUCCESS:
       return { ...initialState, isFirstStart: false };
   }
 

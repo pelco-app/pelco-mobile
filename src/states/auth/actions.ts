@@ -35,14 +35,24 @@ export const verify = (data: any) => {
 };
 
 export const logout = (deviceToken: string) => {
-  removeNotificationListeners();
-  authServices.logout(deviceToken);
-  return { type: authTypes.LOGOUT };
+  const request = () => ({ type: authTypes.LOGOUT_REQUEST });
+  const success = () => ({ type: authTypes.LOGOUT_SUCCESS });
+  const failure = (data: any) => ({ type: authTypes.LOGOUT_FAILURE, payload: { ...data } });
+
+  return (dispatch: Function) => {
+    removeNotificationListeners();
+    dispatch(request());
+
+    return authServices
+      .logout(deviceToken)
+      .then(() => dispatch(success()))
+      .catch((error) => dispatch(failure(error)));
+  };
 };
 
 export const forceLogout = () => {
   removeNotificationListeners();
-  return { type: authTypes.FORCE_LOGOUT };
+  return { type: authTypes.LOGOUT_SUCCESS };
 };
 
 export const register = (data: any) => {

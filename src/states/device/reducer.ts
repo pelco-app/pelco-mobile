@@ -13,7 +13,7 @@ export const deviceReducer = (state: any = initialState, action: any) => {
     case deviceTypes.SET_DEVICE_TOKEN:
       return { ...state, ...action.payload };
 
-    case authTypes.LOGOUT:
+    case authTypes.LOGOUT_SUCCESS:
       return { ...state, deviceToken: null };
   }
 

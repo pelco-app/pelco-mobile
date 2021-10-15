@@ -38,7 +38,7 @@ export const Bill: React.FC<Props> = ({ match }) => {
   const getStatusBadge = (status: string): JSX.Element => {
     let badgeClassName = "";
 
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "paid":
         badgeClassName = "success";
         break;

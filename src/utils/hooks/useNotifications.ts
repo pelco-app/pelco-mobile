@@ -5,7 +5,7 @@ import {
   PushNotificationSchema,
   Token,
 } from "@capacitor/push-notifications";
-import { deviceActions, useAppDispatch } from "states";
+import { accountActions, billActions, deviceActions, useAppDispatch } from "states";
 
 export const useNotifications = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +22,24 @@ export const useNotifications = () => {
       });
 
       PushNotifications.addListener("pushNotificationReceived", (notification: PushNotificationSchema) => {
-        console.log("Push received: ", notification);
+        const { data } = notification;
+        if (data?.type) {
+          switch (data.type) {
+            case "bills":
+              dispatch(billActions.fetch());
+              break;
+
+            case "announcements":
+              // dispatch(billActions.fetch());
+              break;
+
+            case "schedules":
+              // dispatch(billActions.fetch());
+              break;
+            default:
+              break;
+          }
+        }
       });
 
       PushNotifications.addListener("pushNotificationActionPerformed", (action: ActionPerformed) => {
@@ -31,6 +48,7 @@ export const useNotifications = () => {
         const targetPathName = `/${data?.type}${data?.reference_id ? `/${data?.reference_id}` : ""}`;
 
         if (data?.type && currentPathName !== targetPathName) {
+          dispatch(billActions.fetch());
           ionRouter.push(targetPathName);
         }
       });

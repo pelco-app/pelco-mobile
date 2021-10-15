@@ -15,7 +15,7 @@ const AppRoutes: React.FC = () => {
   useMessages();
   usePersistentState();
   const dispatch = useAppDispatch();
-  const { auth } = useAppSelector((state) => state);
+  const { auth, device } = useAppSelector((state) => state);
   const isMounted = useIsMounted();
   const { registerNotificationListeners } = useNotifications();
   const showWelcomeScreen = auth.isFirstStart;
@@ -26,11 +26,13 @@ const AppRoutes: React.FC = () => {
     if (!isMounted) {
       const setDeviceName = async () => {
         const info = await Device.getInfo();
-        dispatch(deviceActions.setDeviceName(info.model));
+        if (device.name !== info.model) {
+          dispatch(deviceActions.setDeviceName(info.model));
+        }
       };
       setDeviceName();
     }
-  }, [isMounted]);
+  }, [device.name, isMounted]);
 
   useEffect(() => {
     if (auth.token && isPlatform("capacitor")) {

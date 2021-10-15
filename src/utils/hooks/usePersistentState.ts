@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 
-import { getPersist, setPersist } from "utils/storage";
+import { setPersist } from "utils/storage";
 import { useIsMounted } from "./useIsMounted";
-import { useAppDispatch, useAppSelector } from "states";
+import { useAppSelector } from "states";
 
 export const usePersistentState = () => {
-  const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state);
   const isMounted = useIsMounted();
 
   useEffect(() => {
-    if (isMounted) {
-      getPersist().then((states) => states && dispatch({ type: "PERSIST", states }));
-    } else {
+    if (!isMounted) {
       setPersist(state);
     }
   }, [state]);

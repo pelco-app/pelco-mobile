@@ -76,7 +76,9 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
                   >
                     <div slot="start" className="badge"></div>
                     <IonLabel className="ion-text-wrap">
-                      <h3>{billingData.billingMonth}</h3>
+                      <h3>
+                        {billingData.billingMonth} {billingData.billingYear}
+                      </h3>
                       {billingData.totalAmountDue > 0 && (
                         <>
                           <p>Due Date: {billingData.dueDate}</p>

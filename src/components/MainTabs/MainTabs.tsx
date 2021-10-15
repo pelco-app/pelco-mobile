@@ -1,6 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { IonBadge, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from "@ionic/react";
+import {
+  IonBadge,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  useIonRouter,
+} from "@ionic/react";
 import {
   barChartOutline,
   calendarOutline,
@@ -11,23 +20,23 @@ import {
 
 import { Account, Announcements, Bill, Bills, Dashboard, Schedules } from "pages";
 import { OtpPane, RegistrationPane } from "components";
-import { useAppSelector } from "states";
+import { accountActions, useAppDispatch, useAppSelector } from "states";
 
 import "./MainTabs.scss";
 
 interface Props {}
 
 export const MainTabs: React.FC<Props> = () => {
-  const announcements: any = {};
-  const dashboard: any = {};
-  const schedules: any = {};
-  const { bills } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const { account, auth } = useAppSelector((state) => state);
+  const ionRouter = useIonRouter();
   const ionTabBar = useRef<any>();
   const [mobileNumber, setMobileNumber] = useState<string>("");
   const [showOtp, setShowOtp] = useState<boolean>(false);
   const [showRegistration, setShowRegistration] = useState<boolean>(false);
   const [scrollToTop, doScrollToTop] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [delayer, setDelayer] = useState<any>();
 
   const activeTabHandler = (e: any) => {
     if (activeTab === ionTabBar.current?.ionTabContextState?.activeTab) {
@@ -36,13 +45,22 @@ export const MainTabs: React.FC<Props> = () => {
     setActiveTab(ionTabBar.current?.ionTabContextState?.activeTab);
   };
 
-  const displayNotificationBadge = (feat: any): JSX.Element => {
-    if (feat?.unreadNotificationCount > 0) {
-      return <IonBadge color="danger">{feat.unreadNotificationCount}</IonBadge>;
+  const displayNotificationBadge = (count: number): JSX.Element => {
+    if (count > 0) {
+      return <IonBadge color="danger">{count}</IonBadge>;
     }
 
     return <></>;
   };
+
+  useEffect(() => {
+    if (delayer) {
+      clearTimeout(delayer);
+    }
+    if (auth.token) {
+      setDelayer(setTimeout(() => dispatch(accountActions.unreadNotificationCount()), 1000));
+    }
+  }, [auth.token, ionRouter.routeInfo.pathname]);
 
   return (
     <>
@@ -84,25 +102,24 @@ export const MainTabs: React.FC<Props> = () => {
           <IonTabButton tab="dashboard" href="/dashboard">
             <IonIcon icon={barChartOutline} />
             <IonLabel>Dashboard</IonLabel>
-            {displayNotificationBadge(dashboard)}
           </IonTabButton>
 
           <IonTabButton tab="bills" href="/bills">
             <IonIcon icon={receiptOutline} />
             <IonLabel>Bills</IonLabel>
-            {displayNotificationBadge(bills)}
+            {displayNotificationBadge(account.unreadNotificationCount.bills)}
           </IonTabButton>
 
           <IonTabButton tab="announcements" href="/announcements">
             <IonIcon icon={megaphoneOutline} />
             <IonLabel>Announcements</IonLabel>
-            {displayNotificationBadge(announcements)}
+            {displayNotificationBadge(account.unreadNotificationCount.announcements)}
           </IonTabButton>
 
           <IonTabButton tab="schedules" href="/schedules">
             <IonIcon icon={calendarOutline} />
             <IonLabel>Schedules</IonLabel>
-            {displayNotificationBadge(schedules)}
+            {displayNotificationBadge(account.unreadNotificationCount.schedules)}
           </IonTabButton>
 
           <IonTabButton tab="account" href="/account">

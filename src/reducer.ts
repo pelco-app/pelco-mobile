@@ -1,5 +1,5 @@
 import { AnyAction } from "@reduxjs/toolkit";
-import { authReducer, billsReducer, deviceReducer, messagesReducer } from "states";
+import { accountReducer, authReducer, billsReducer, deviceReducer, messagesReducer } from "states";
 import { arrayDiff } from "utils/helpers";
 
 const rootReducer = (state: any = {}, action: AnyAction) => {
@@ -20,6 +20,7 @@ const rootReducer = (state: any = {}, action: AnyAction) => {
   }
 
   return {
+    account: accountReducer(state.account, action),
     auth: authReducer(state.auth, action),
     bills: billsReducer(state.bills, action),
     device: deviceReducer(state.device, action),
