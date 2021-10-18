@@ -15,7 +15,7 @@ export const unreadNotificationCount = () => {
     dispatch(request());
 
     return accountServices
-      .getUnreadNotificationCount()
+      .getUnreadNotificationCounts()
       .then((response) => dispatch(success(response)))
       .catch((error) => dispatch(failure(error)));
   };
