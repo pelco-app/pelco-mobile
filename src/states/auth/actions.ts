@@ -28,7 +28,7 @@ export const verify = (data: any) => {
       .verify(data)
       .then((response: any) => {
         const [, token] = response.token.split("|");
-        dispatch(success({ token }));
+        dispatch(success({ ...response, token }));
       })
       .catch((error) => dispatch(failure(error)));
   };

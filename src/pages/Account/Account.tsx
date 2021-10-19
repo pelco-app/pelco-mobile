@@ -54,7 +54,9 @@ export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...p
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>{account.user.name}</IonCardTitle>
-            <IonCardSubtitle>{account.user.accountNumber}</IonCardSubtitle>
+            <IonCardSubtitle>
+              {account.user.accountType} | {account.user.accountNumber}
+            </IonCardSubtitle>
           </IonCardHeader>
 
           <IonCardContent className="card-content">

@@ -22,6 +22,7 @@ import { chevronBackOutline } from "ionicons/icons";
 
 import { Refresher } from "components";
 import { billActions, useAppDispatch, useAppSelector } from "states";
+import { peso } from "utils/helpers";
 
 import "./Bill.scss";
 
@@ -96,7 +97,7 @@ export const Bill: React.FC<Props> = ({ match }) => {
                 {bills.loading ? (
                   <IonSkeletonText animated style={{ width: "50%" }} />
                 ) : (
-                  `Amount Due: ₱${bills.item.totalAmountDue}`
+                  `Amount Due: ${peso(bills.item.totalAmountDue)}`
                 )}
               </IonCardTitle>
             </IonCardHeader>
@@ -106,21 +107,21 @@ export const Bill: React.FC<Props> = ({ match }) => {
                 {bills.loading ? (
                   <IonSkeletonText animated style={{ width: "50%" }} />
                 ) : (
-                  <p>Current Charges: ₱{bills.item.currentCharges}</p>
+                  <p>Current Charges: {peso(bills.item.currentCharges)}</p>
                 )}
               </IonItem>
               <IonItem>
                 {bills.loading ? (
                   <IonSkeletonText animated style={{ width: "50%" }} />
                 ) : (
-                  <p>Previous Balance: ₱{bills.item.previousBalance}</p>
+                  <p>Previous Balance: {peso(bills.item.previousBalance)}</p>
                 )}
               </IonItem>
               <IonItem>
                 {bills.loading ? (
                   <IonSkeletonText animated style={{ width: "50%" }} />
                 ) : (
-                  <p>Advance Payment: ₱{bills.item.advancePayment}</p>
+                  <p>Advance Payment: {peso(bills.item.advancePayment)}</p>
                 )}
               </IonItem>
               <IonItem>

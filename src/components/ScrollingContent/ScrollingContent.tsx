@@ -20,7 +20,7 @@ export const ScrollingContent: React.FC<Props> = ({ title, scrollToTop, children
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen className="bills-page" ref={ionContent}>
+      <IonContent fullscreen ref={ionContent}>
         {Children.toArray(children)}
       </IonContent>
     </>

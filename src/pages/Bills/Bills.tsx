@@ -12,9 +12,9 @@ import {
 
 import { Refresher, ScrollingContent, SkeletonList } from "components";
 import { billActions, useAppDispatch, useAppSelector } from "states";
+import { groupByArray, peso } from "utils/helpers";
 
 import "./Bills.scss";
-import { groupByArray } from "utils/helpers";
 
 interface Props extends RouteComponentProps<any> {
   scrollToTop: number;
@@ -53,7 +53,7 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
   }, [ionInfinite]);
 
   return (
-    <IonPage>
+    <IonPage className="bills-page">
       <ScrollingContent {...props} history={history} title="Bills">
         <Refresher onRefresh={doRefresh} />
 
@@ -82,7 +82,7 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
                       {billingData.totalAmountDue > 0 && (
                         <>
                           <p>Due Date: {billingData.dueDate}</p>
-                          <p>Amount Due: ₱{billingData.totalAmountDue}</p>
+                          <p>Amount Due: {peso(billingData.totalAmountDue)}</p>
                         </>
                       )}
                     </IonLabel>

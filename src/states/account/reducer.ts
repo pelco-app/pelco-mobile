@@ -18,7 +18,7 @@ export const accountReducer = (state: any = initialState, action: any) => {
       return { ...state, loading: false };
 
     case accountTypes.GET_UNREAD_NOTIFICATION_COUNT_SUCCESS:
-      return { ...state, unreadNotificationCount: action.payload };
+      return { ...state, unreadNotificationCount: action.payload, loading: false };
 
     case authTypes.LOGIN_SUCCESS:
       return {

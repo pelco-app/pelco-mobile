@@ -36,3 +36,11 @@ export const groupByArray = (xs: any, key: any): any[] => {
     return rv;
   }, []);
 };
+
+export const peso = (amount: number): string => {
+  if (amount >= 0) {
+    return `₱${amount.toFixed(2)}`;
+  }
+
+  return `-₱${(amount * -1).toFixed(2)}`;
+};
