@@ -1,3 +1,5 @@
+import { peso } from "./helpers";
+
 export const MONTHS: any = {
   Jan: "January",
   Feb: "February",
@@ -27,4 +29,24 @@ export const CHART_COLORS = {
   blue: "rgb(54, 162, 235)",
   purple: "rgb(153, 102, 255)",
   grey: "rgb(201, 203, 207)",
+};
+
+export const chartTitle = (tooltipItems: any[]): string => {
+  const [item] = tooltipItems;
+  return `${MONTHS[item.label]}`;
+};
+
+export const chartLabel = (tooltipItem: any): string => {
+  return `${tooltipItem.dataset.label}: ${peso(tooltipItem.parsed.x)}`;
+};
+
+export const chartFooter = (tooltipItems: any[]): string => {
+  const [previous, current] = tooltipItems;
+
+  if (current) {
+    const savedDifference = current.parsed.x - previous.parsed.x;
+    return `vs past period: ${savedDifference > 0 ? "+" : ""}${peso(savedDifference)}`;
+  }
+
+  return "";
 };

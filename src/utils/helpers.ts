@@ -39,8 +39,23 @@ export const groupByArray = (xs: any, key: any): any[] => {
 
 export const peso = (amount: number): string => {
   if (amount >= 0) {
-    return `₱${amount.toFixed(2)}`;
+    return `₱${numberWithCommas(amount.toFixed(2))}`;
   }
 
-  return `-₱${(amount * -1).toFixed(2)}`;
+  return `−₱${numberWithCommas((amount * -1).toFixed(2))}`;
 };
+
+export const percentageChange = (initialValue: number, finalValue: number): string | boolean => {
+  if (initialValue === 0) {
+    return false;
+  }
+
+  const change = ((finalValue - initialValue) / initialValue) * 100;
+  if (change >= 0) {
+    return `${numberWithCommas(change.toFixed(2))}%`;
+  }
+
+  return `−${numberWithCommas((change * -1).toFixed(2))}%`;
+};
+
+const numberWithCommas = (number: string): string => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

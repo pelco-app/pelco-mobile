@@ -7,5 +7,6 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export * from "./account";
 export * from "./auth";
 export * from "./bills";
+export * from "./dashboard";
 export * from "./device";
 export * from "./messages";

@@ -1,5 +1,5 @@
 import { dateSort, markAsRead, removeDuplicateById } from "utils/helpers";
-import { billTypes } from "states";
+import { authTypes, billTypes } from "states";
 
 const initialState: any = {
   all: { data: [] },
@@ -49,6 +49,9 @@ export const billsReducer = (state: any = initialState, action: any) => {
         item: action.payload,
         loading: false,
       };
+
+    case authTypes.LOGOUT_SUCCESS:
+      return { ...initialState };
   }
 
   return state;

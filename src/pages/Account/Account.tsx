@@ -9,8 +9,8 @@ import {
   IonItem,
   IonLabel,
   IonList,
+  IonLoading,
   IonPage,
-  useIonLoading,
 } from "@ionic/react";
 
 import { ScrollingContent } from "components";
@@ -26,8 +26,7 @@ interface Props extends RouteComponentProps<any> {
 
 export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...props }) => {
   const dispatch = useAppDispatch();
-  const { account, auth, device, messages } = useAppSelector((state) => state);
-  const [, dismissLoading] = useIonLoading();
+  const { account, auth, device } = useAppSelector((state) => state);
 
   useEffect((): any => {
     if (auth.isUpdateVerification) {
@@ -44,13 +43,11 @@ export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...p
     }
   }, [auth.isUpdateSuccess]);
 
-  useEffect(() => {
-    dismissLoading();
-  }, [messages]);
-
   return (
-    <IonPage className="account-page">
-      <ScrollingContent {...props} title="Account">
+    <IonPage>
+      <IonLoading isOpen={auth.loading} message="Please wait..." />
+
+      <ScrollingContent {...props} className="account-page" title="Account">
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>{account.user.name}</IonCardTitle>

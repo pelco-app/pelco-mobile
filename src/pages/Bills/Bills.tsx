@@ -53,8 +53,8 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
   }, [ionInfinite]);
 
   return (
-    <IonPage className="bills-page">
-      <ScrollingContent {...props} history={history} title="Bills">
+    <IonPage>
+      <ScrollingContent {...props} className="bills-page" history={history} title="Bills">
         <Refresher onRefresh={doRefresh} />
 
         {bills.loading && history.location.pathname === "/bills" ? (

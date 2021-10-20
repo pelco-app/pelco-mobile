@@ -38,7 +38,7 @@ export const MainTabs: React.FC<Props> = () => {
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [delayer, setDelayer] = useState<any>();
 
-  const activeTabHandler = (e: any) => {
+  const activeTabHandler = () => {
     if (activeTab === ionTabBar.current?.ionTabContextState?.activeTab) {
       doScrollToTop((prev) => prev + 1);
     }

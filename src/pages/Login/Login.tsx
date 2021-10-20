@@ -7,9 +7,9 @@ import {
   IonContent,
   IonIcon,
   IonLabel,
+  IonLoading,
   IonPage,
   IonToolbar,
-  useIonLoading,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 
@@ -30,12 +30,10 @@ export const Login: React.FC<Props> = () => {
   const [isValidInput, setIsValidInput] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(false);
   const [showRegistration, setShowRegistration] = useState<boolean>(false);
-  const [presentLoading, dismissLoading] = useIonLoading();
 
   const showWelcomeScreen = () => dispatch(authActions.welcome(true));
 
   const proceedCheck = (reset?: boolean) => {
-    presentLoading({ message: "Please wait..." });
     dispatch(authActions.check({ accountNumber, reset }));
   };
 
@@ -55,11 +53,10 @@ export const Login: React.FC<Props> = () => {
       }
 
       dispatch(authActions.reset("check"));
-      dismissLoading();
     }
   }, [auth.check]);
 
-  useEffect((): any => {
+  useEffect(() => {
     if (auth.isRegistrationSuccess) {
       setShowOtp(true);
       dispatch(authActions.reset("isRegistrationSuccess"));
@@ -72,15 +69,10 @@ export const Login: React.FC<Props> = () => {
     }
   }, [messages.error]);
 
-  useEffect((): any => {
-    !auth.loading && setTimeout(() => dismissLoading(), 100);
-    return () => {
-      dismissLoading();
-    };
-  }, [auth.loading]);
-
   return (
     <IonPage>
+      <IonLoading isOpen={auth.loading} message="Please wait..." />
+
       <IonContent fullscreen className="login-screen">
         <IonToolbar>
           <IonButtons slot="start">

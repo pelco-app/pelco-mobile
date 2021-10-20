@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IonContent, IonInput, IonItem, IonLabel, useIonLoading } from "@ionic/react";
+import { IonContent, IonInput, IonItem, IonLabel } from "@ionic/react";
 import { CupertinoPane } from "cupertino-pane";
 
 import { Button } from "components";
@@ -30,7 +30,6 @@ export const RegistrationPane: React.FC<Props> = ({
   const dispatch = useAppDispatch();
   const { auth } = useAppSelector((state) => state);
   const paneRef = useRef<any>();
-  const [presentLoading, dismissLoading] = useIonLoading();
   const [billingReference, setBillingReference] = useState<any>("");
   const [isValidInput, setIsValidInput] = useState<boolean>(false);
   const [drawer, setDrawer] = useState<any>(null);
@@ -48,7 +47,6 @@ export const RegistrationPane: React.FC<Props> = ({
   };
 
   const proceed = () => {
-    presentLoading({ message: "Please wait..." });
     if (accountNumber) {
       dispatch(authActions.register({ accountNumber, billingReference, mobileNumber }));
     } else {
@@ -61,13 +59,6 @@ export const RegistrationPane: React.FC<Props> = ({
     const validMobileNumber = mobileNumber.startsWith("639") && mobileNumber.length === maxInput.mobileNumber;
     setIsValidInput(validBillingReference && validMobileNumber);
   }, [billingReference, mobileNumber]);
-
-  useEffect((): any => {
-    !auth.loading && setTimeout(() => dismissLoading(), 100);
-    return () => {
-      dismissLoading();
-    };
-  }, [auth.loading]);
 
   useEffect(() => {
     setDrawer(!!paneRef?.current ? new CupertinoPane(paneRef.current, settings) : null);

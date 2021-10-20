@@ -24,6 +24,8 @@ export const useNotifications = () => {
       PushNotifications.addListener("pushNotificationReceived", (notification: PushNotificationSchema) => {
         const { data } = notification;
         if (data?.type) {
+          dispatch(accountActions.unreadNotificationCount());
+
           switch (data.type) {
             case "bills":
               dispatch(billActions.fetch());

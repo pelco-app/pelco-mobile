@@ -1,5 +1,13 @@
 .dashboard-page {
+  .card-content {
+    .item::part(native) {
+      padding: 0;
+    }
+  }
+
   .chart-container {
     overflow: auto;
+    margin-bottom: 50px;
+    padding: 0 10px;
   }
 }
