@@ -25,7 +25,7 @@ export const Login: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const { auth, messages } = useAppSelector((state) => state);
   const [accountNumber, setAccountNumber] = useState<any>("");
-  const [mobileNumber, setMobileNumber] = useState<any>("");
+  const [mobileNumber, setMobileNumber] = useState<string>("");
   const [hasError, setHasError] = useState<boolean>(false);
   const [isValidInput, setIsValidInput] = useState<boolean>(false);
   const [showOtp, setShowOtp] = useState<boolean>(false);

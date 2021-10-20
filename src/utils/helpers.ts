@@ -37,12 +37,13 @@ export const groupByArray = (xs: any, key: any): any[] => {
   }, []);
 };
 
-export const peso = (amount: number): string => {
-  if (amount >= 0) {
-    return `₱${numberWithCommas(amount.toFixed(2))}`;
+export const peso = (amount: number | string): string => {
+  const number = parseFloat(amount as string);
+  if (number >= 0) {
+    return `₱${numberWithCommas(number.toFixed(2))}`;
   }
 
-  return `−₱${numberWithCommas((amount * -1).toFixed(2))}`;
+  return `−₱${numberWithCommas((number * -1).toFixed(2))}`;
 };
 
 export const percentageChange = (initialValue: number, finalValue: number): string | boolean => {

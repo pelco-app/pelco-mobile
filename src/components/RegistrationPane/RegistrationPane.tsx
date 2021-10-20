@@ -12,7 +12,7 @@ interface Props {
   buttonLabel?: string;
   header?: string;
   mobileNumber: string;
-  setMobileNumber: (mobileNumber: any) => void;
+  setMobileNumber: (mobileNumber: string) => void;
   setShowPane: (state: boolean) => void;
   showPane: boolean;
 }
@@ -104,8 +104,9 @@ export const RegistrationPane: React.FC<Props> = ({
               inputmode="numeric"
               maxlength={maxInput.mobileNumber}
               onIonChange={(e) => {
-                setMobileNumber(e.detail.value);
-                setMobileNumber(e.detail.value?.replace(/\D/g, ""));
+                const value = e.detail.value as string;
+                setMobileNumber(value);
+                setMobileNumber(value?.replace(/\D/g, ""));
               }}
               placeholder="639xxxxxxxxx"
               type="tel"

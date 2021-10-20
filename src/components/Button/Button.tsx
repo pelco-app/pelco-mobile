@@ -1,5 +1,12 @@
 import { IonButton, IonSpinner } from "@ionic/react";
 
-export const Button: React.FC<any> = ({ label, loading, ...props }) => (
+type IonButtonProps = React.ComponentProps<typeof IonButton>;
+
+interface Props extends IonButtonProps {
+  loading?: boolean;
+  label: string;
+}
+
+export const Button: React.FC<Props> = ({ label, loading, ...props }) => (
   <IonButton {...props}>{loading ? <IonSpinner color={props.color} name="crescent" /> : label}</IonButton>
 );
