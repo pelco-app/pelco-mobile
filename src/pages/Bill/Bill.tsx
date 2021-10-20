@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { RefresherEventDetail } from "@ionic/core";
 import {
   IonBadge,
   IonButton,
@@ -32,7 +33,7 @@ export const Bill: React.FC<Props> = ({ match }) => {
   const dispatch = useAppDispatch();
   const { bills } = useAppSelector((state) => state);
 
-  const doRefresh = (refresher: any) => {
+  const doRefresh = (refresher: CustomEvent<RefresherEventDetail>) => {
     dispatch(billActions.get(match.params.id)).then(() => refresher.detail.complete());
   };
 
@@ -58,7 +59,7 @@ export const Bill: React.FC<Props> = ({ match }) => {
     );
   };
 
-  useEffect(() => dispatch(billActions.get(match.params.id)), [match.params.id]);
+  useEffect((): any => dispatch(billActions.get(match.params.id)), [match.params.id]);
 
   return (
     <IonPage>

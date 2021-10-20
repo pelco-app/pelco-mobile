@@ -26,6 +26,12 @@ export const accountReducer = (state: any = initialState, action: any) => {
         user: action.payload.user,
       };
 
+    case authTypes.UPDATE_VERIFY_SUCCESS:
+      return {
+        ...state,
+        user: { ...state.user, mobileNumber: action.payload.mobileNumber },
+      };
+
     case authTypes.LOGOUT_SUCCESS:
       return { ...initialState };
   }

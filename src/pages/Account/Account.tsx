@@ -28,14 +28,14 @@ export const Account: React.FC<Props> = ({ setShowOtp, setShowRegistration, ...p
   const dispatch = useAppDispatch();
   const { account, auth, device } = useAppSelector((state) => state);
 
-  useEffect((): any => {
+  useEffect(() => {
     if (auth.isUpdateVerification) {
       setShowOtp(true);
       dispatch(authActions.reset("isUpdateVerification"));
     }
   }, [auth.isUpdateVerification]);
 
-  useEffect((): any => {
+  useEffect(() => {
     if (auth.isUpdateSuccess) {
       setShowRegistration(false);
       setShowOtp(false);

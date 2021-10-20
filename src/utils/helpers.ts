@@ -8,12 +8,12 @@ export const removeDuplicateById = (array: any[]): any[] => {
     .reverse();
 };
 
-export const dateSort = (array: any[], prop: string = "date") => {
+export const dateSort = (array: any[], prop: string = "date"): any[] => {
   return array.sort((a, b) => new Date(b[prop]).valueOf() - new Date(a[prop]).valueOf());
 };
 
-export const markAsRead = (array: any[], id: number) => {
-  return array.map((obj: any) => {
+export const markAsRead = (array: any[], id: number): any[] => {
+  return array.map((obj) => {
     if (obj.id === id) {
       const updated = { ...obj };
       updated.unread = false;
@@ -24,7 +24,7 @@ export const markAsRead = (array: any[], id: number) => {
   });
 };
 
-export const arrayDiff = (firstArray: any[], secondArray: any[]) => {
+export const arrayDiff = (firstArray: any[], secondArray: any[]): any[] => {
   return firstArray.filter((x) => !secondArray.includes(x));
 };
 

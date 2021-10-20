@@ -4,7 +4,7 @@ import { IonApp, IonLoading, setupConfig } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { SplashScreen } from "@capacitor/splash-screen";
 
-import store from "store";
+import { store } from "store";
 import AppRoutes from "AppRoutes";
 import { NetworkStatus } from "components";
 import { getPersist } from "utils/storage";

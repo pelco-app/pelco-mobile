@@ -1,12 +1,9 @@
-import { Storage } from "@capacitor/storage";
 import axios from "axios";
 
-import store from "store";
+import { store } from "store";
 import { authActions, messagesActions } from "states";
 
-const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api`,
-});
+const instance = axios.create({ baseURL: `${process.env.REACT_APP_API_URL}/api` });
 
 instance.interceptors.request.use(
   async (config) => {
@@ -32,7 +29,7 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-  (response: any) => {
+  (response) => {
     const { data } = response;
 
     if (data.message) {

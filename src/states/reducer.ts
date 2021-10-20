@@ -9,7 +9,16 @@ import {
 } from "states";
 import { arrayDiff } from "utils/helpers";
 
-const rootReducer = (state: any = {}, action: AnyAction) => {
+interface RootStates {
+  account: any;
+  auth: any;
+  bills: any;
+  dashboard: any;
+  device: any;
+  messages: any;
+}
+
+const rootReducer = (state: any = {}, action: AnyAction): RootStates => {
   if (action.type === "PERSIST") {
     const blacklist = arrayDiff(Object.keys(state), Object.keys(action.states));
 

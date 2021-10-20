@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { RefresherEventDetail } from "@ionic/core";
 import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
@@ -26,14 +27,14 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
   const ionInfinite = useRef<any>();
   const [fetchNextSet, setFetchNextSet] = useState<boolean>(false);
 
-  const doRefresh = (refresher: any) => {
+  const doRefresh = (refresher: CustomEvent<RefresherEventDetail>) => {
     dispatch(billActions.fetch()).then((response: any) => {
       refresher.detail.complete();
       ionInfinite.current.disabled = !response.payload.nextPageUrl;
     });
   };
 
-  useEffect(() => dispatch(billActions.fetch()), []);
+  useEffect((): any => dispatch(billActions.fetch()), []);
 
   useEffect(() => {
     if (bills.all?.nextPageUrl && fetchNextSet) {

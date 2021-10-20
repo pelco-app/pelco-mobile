@@ -9,8 +9,8 @@ export const useExitBack = () => {
   const [presentToast] = useIonToast();
   const ionRouter = useIonRouter();
 
-  document.addEventListener("ionBackButton", (ev: any) => {
-    ev.detail.register(1, () => {
+  document.addEventListener("ionBackButton", (event: Event) => {
+    (<CustomEvent>event).detail.register(1, () => {
       if (!ionRouter.canGoBack() || tabRoutes.includes(ionRouter.routeInfo.pathname)) {
         if (new Date().getTime() - lastBackPress < timePeriodToExit) {
           App.exitApp();

@@ -1,6 +1,25 @@
+import { ChartTypeRegistry, TooltipItem } from "chart.js/auto";
 import { peso } from "./helpers";
 
-export const MONTHS: any = {
+type ShortMonthName =
+  | "Jan"
+  | "Feb"
+  | "Mar"
+  | "Apr"
+  | "May"
+  | "Jun"
+  | "Jul"
+  | "Aug"
+  | "Sept"
+  | "Oct"
+  | "Nov"
+  | "Dec";
+
+type Months = {
+  [key in ShortMonthName]: string;
+};
+
+export const MONTHS: Months = {
   Jan: "January",
   Feb: "February",
   Mar: "March",
@@ -31,16 +50,16 @@ export const CHART_COLORS = {
   grey: "rgb(201, 203, 207)",
 };
 
-export const chartTitle = (tooltipItems: any[]): string => {
+export const chartTitle = (tooltipItems: TooltipItem<keyof ChartTypeRegistry>[]): string => {
   const [item] = tooltipItems;
-  return `${MONTHS[item.label]}`;
+  return `${MONTHS[item.label as ShortMonthName]}`;
 };
 
-export const chartLabel = (tooltipItem: any): string => {
+export const chartLabel = (tooltipItem: TooltipItem<keyof ChartTypeRegistry>): string => {
   return `${tooltipItem.dataset.label}: ${peso(tooltipItem.parsed.x)}`;
 };
 
-export const chartFooter = (tooltipItems: any[]): string => {
+export const chartFooter = (tooltipItems: TooltipItem<keyof ChartTypeRegistry>[]): string => {
   const [previous, current] = tooltipItems;
 
   if (current) {

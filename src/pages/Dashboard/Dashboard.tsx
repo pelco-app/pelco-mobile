@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { RefresherEventDetail } from "@ionic/core";
 import {
   IonCard,
   IonCardContent,
@@ -14,6 +15,8 @@ import {
   IonPicker,
   IonSkeletonText,
   IonText,
+  PickerButton,
+  PickerColumn,
 } from "@ionic/react";
 import { calendarOutline } from "ionicons/icons";
 import Chart, { ChartConfiguration } from "chart.js/auto";
@@ -43,14 +46,14 @@ export const Dashboard: React.FC<Props> = (props) => {
   const isMounted = useIsMounted();
   const chartCanvas = useRef<any>();
 
-  const pickerButtons = [
+  const pickerButtons: PickerButton[] = [
     {
       text: "Cancel",
       role: "cancel",
     },
     {
       text: "Confirm",
-      handler: (selected: any) => {
+      handler: (selected) => {
         const selectedIndex = comparableYears.findIndex((year) => year.value === selected.year.value);
 
         if (selectedPickerIndex !== selectedIndex) {
@@ -64,7 +67,7 @@ export const Dashboard: React.FC<Props> = (props) => {
     },
   ];
 
-  const pickerColumns = [
+  const pickerColumns: PickerColumn[] = [
     {
       name: "year",
       options: [...comparableYears.map((year) => ({ text: year.text, value: year.value }))],
@@ -72,7 +75,7 @@ export const Dashboard: React.FC<Props> = (props) => {
     },
   ];
 
-  const doRefresh = (refresher: any) => {
+  const doRefresh = (refresher: CustomEvent<RefresherEventDetail>) => {
     dispatch(dashboardActions.fetch({ year: selectedYear })).then(() => {
       refresher.detail.complete();
     });
