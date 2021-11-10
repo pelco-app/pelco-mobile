@@ -1,0 +1,12 @@
+.schedule-page {
+  .status {
+    float: right;
+    text-transform: capitalize;
+  }
+
+  .card-content {
+    .item::part(native) {
+      padding: 0;
+    }
+  }
+}

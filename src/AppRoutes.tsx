@@ -4,7 +4,7 @@ import { isPlatform } from "@ionic/react";
 import { Device } from "@capacitor/device";
 
 import { Login, Welcome } from "pages";
-import { MainTabs } from "components";
+import Tabs from "./Tabs";
 import { deviceActions, useAppDispatch, useAppSelector } from "states";
 import { useExitBack, useIsMounted, useMessages, useNotifications, usePersistentState } from "utils/hooks";
 
@@ -44,7 +44,7 @@ const AppRoutes: React.FC = () => {
     <>
       <Route exact path="/welcome" component={Welcome} />
       <Route exact path="/login" component={Login} />
-      <Route path="/" component={showMainScreen ? MainTabs : showLoginScreen ? Login : Welcome} />
+      <Route path="/" component={showMainScreen ? Tabs : showLoginScreen ? Login : Welcome} />
       <Route exact path="*" render={() => <Redirect to="/" />} />
     </>
   );

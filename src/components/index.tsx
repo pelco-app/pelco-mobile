@@ -1,6 +1,5 @@
 export * from "./Button/Button";
 export * from "./ExploreContainer/ExploreContainer";
-export * from "./MainTabs/MainTabs";
 export * from "./NetworkStatus/NetworkStatus";
 export * from "./OtpInput/OtpInput";
 export * from "./OtpPane/OtpPane";

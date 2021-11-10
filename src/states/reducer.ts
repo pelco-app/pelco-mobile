@@ -1,21 +1,25 @@
 import { AnyAction } from "@reduxjs/toolkit";
 import {
   accountReducer,
+  announcementsReducer,
   authReducer,
   billsReducer,
   dashboardReducer,
   deviceReducer,
   messagesReducer,
+  schedulesReducer,
 } from "states";
 import { arrayDiff } from "utils/helpers";
 
 interface RootStates {
   account: any;
+  announcements: any;
   auth: any;
   bills: any;
   dashboard: any;
   device: any;
   messages: any;
+  schedules: any;
 }
 
 const rootReducer = (state: any = {}, action: AnyAction): RootStates => {
@@ -37,11 +41,13 @@ const rootReducer = (state: any = {}, action: AnyAction): RootStates => {
 
   return {
     account: accountReducer(state.account, action),
+    announcements: announcementsReducer(state.announcements, action),
     auth: authReducer(state.auth, action),
     bills: billsReducer(state.bills, action),
     dashboard: dashboardReducer(state.dashboard, action),
     device: deviceReducer(state.device, action),
     messages: messagesReducer(state.messages, action),
+    schedules: schedulesReducer(state.schedules, action),
   };
 };
 

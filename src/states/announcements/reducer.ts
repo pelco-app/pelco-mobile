@@ -1,25 +1,25 @@
 import { dateSort, markAsRead, removeDuplicateById } from "utils/helpers";
-import { authTypes, billTypes } from "states";
+import { authTypes, announcementTypes } from "states";
 
 const initialState: any = {
   all: { data: [] },
   item: {},
 };
 
-export const billsReducer = (state: any = initialState, action: any) => {
+export const announcementsReducer = (state: any = initialState, action: any) => {
   switch (action.type) {
-    case billTypes.FETCH_BILLS_REQUEST:
+    case announcementTypes.FETCH_ANNOUNCEMENTS_REQUEST:
       return { ...state, loading: true };
 
-    case billTypes.GET_BILL_REQUEST:
+    case announcementTypes.GET_ANNOUNCEMENT_REQUEST:
       return { ...state, loading: true, item: {} };
 
-    case billTypes.FETCH_BILLS_FAILURE:
-    case billTypes.FETCH_MORE_BILLS_FAILURE:
-    case billTypes.GET_BILL_FAILURE:
+    case announcementTypes.FETCH_ANNOUNCEMENTS_FAILURE:
+    case announcementTypes.FETCH_MORE_ANNOUNCEMENTS_FAILURE:
+    case announcementTypes.GET_ANNOUNCEMENT_FAILURE:
       return { ...state, loading: false };
 
-    case billTypes.FETCH_BILLS_SUCCESS:
+    case announcementTypes.FETCH_ANNOUNCEMENTS_SUCCESS:
       return {
         ...state,
         all: {
@@ -29,17 +29,17 @@ export const billsReducer = (state: any = initialState, action: any) => {
         loading: false,
       };
 
-    case billTypes.FETCH_MORE_BILLS_SUCCESS:
+    case announcementTypes.FETCH_MORE_ANNOUNCEMENTS_SUCCESS:
       return {
         ...state,
         all: {
-          data: dateSort(removeDuplicateById([...state.all.data, ...action.payload.data]), "billingMonth"),
+          data: dateSort(removeDuplicateById([...state.all.data, ...action.payload.data]), "createdAt"),
           nextPageUrl: action.payload.nextPageUrl,
         },
         loading: false,
       };
 
-    case billTypes.GET_BILL_SUCCESS:
+    case announcementTypes.GET_ANNOUNCEMENT_SUCCESS:
       return {
         ...state,
         all: {

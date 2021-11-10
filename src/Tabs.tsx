@@ -18,15 +18,13 @@ import {
   receiptOutline,
 } from "ionicons/icons";
 
-import { Account, Announcements, Bill, Bills, Dashboard, Schedules } from "pages";
+import { Account, Announcement, Announcements, Bill, Bills, Dashboard, Schedule, Schedules } from "pages";
 import { OtpPane, RegistrationPane } from "components";
 import { accountActions, useAppDispatch, useAppSelector } from "states";
 
-import "./MainTabs.scss";
-
 interface Props {}
 
-export const MainTabs: React.FC<Props> = () => {
+const Tabs: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const { account, auth } = useAppSelector((state) => state);
   const ionRouter = useIonRouter();
@@ -72,18 +70,24 @@ export const MainTabs: React.FC<Props> = () => {
             path="/dashboard"
             render={(props) => <Dashboard {...props} scrollToTop={scrollToTop} />}
           />
+
           <Route exact path="/bills" render={(props) => <Bills {...props} scrollToTop={scrollToTop} />} />
           <Route exact path="/bills/:id" render={(props) => <Bill {...props} />} />
+
           <Route
             exact
             path="/announcements"
             render={(props) => <Announcements {...props} scrollToTop={scrollToTop} />}
           />
+          <Route exact path="/announcements/:id" render={(props) => <Announcement {...props} />} />
+
           <Route
             exact
             path="/schedules"
             render={(props) => <Schedules {...props} scrollToTop={scrollToTop} />}
           />
+          <Route exact path="/schedules/:id" render={(props) => <Schedule {...props} />} />
+
           <Route
             exact
             path="/account"
@@ -142,3 +146,5 @@ export const MainTabs: React.FC<Props> = () => {
     </>
   );
 };
+
+export default Tabs;

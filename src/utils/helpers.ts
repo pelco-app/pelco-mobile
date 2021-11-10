@@ -60,3 +60,6 @@ export const percentageChange = (initialValue: number, finalValue: number): stri
 };
 
 const numberWithCommas = (number: string): string => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+export const truncate = (input: string, length: number) =>
+  input.length > length ? `${input.substring(0, length)}...` : input;

@@ -2,7 +2,7 @@ import { IonItem, IonLabel, IonList, IonListHeader, IonSkeletonText } from "@ion
 
 interface Props {
   count: number;
-  hasHeader: boolean;
+  hasHeader?: boolean;
 }
 
 export const SkeletonList: React.FC<Props> = ({ count, hasHeader }) => {
