@@ -31,8 +31,8 @@ const App: React.FC = () => {
   return isReady ? (
     <Provider store={store}>
       <IonApp>
-        <NetworkStatus />
         <IonReactRouter>
+          <NetworkStatus />
           <AppRoutes />
         </IonReactRouter>
       </IonApp>

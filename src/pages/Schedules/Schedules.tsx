@@ -59,7 +59,7 @@ export const Schedules: React.FC<Props> = ({ history, ...props }) => {
 
         {schedules.loading && history.location.pathname === "/schedules" ? (
           <SkeletonList count={10} />
-        ) : (
+        ) : schedules.all?.data?.length > 0 ? (
           <IonList>
             {schedules.all?.data?.map((scheduleData: any, index: number) => (
               <IonItem
@@ -81,11 +81,15 @@ export const Schedules: React.FC<Props> = ({ history, ...props }) => {
               </IonItem>
             ))}
           </IonList>
+        ) : (
+          <div className="center-screen">No schedules found</div>
         )}
 
-        <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
-          <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
-        </IonInfiniteScroll>
+        {schedules.all?.data?.length !== 0 && (
+          <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
+            <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
+          </IonInfiniteScroll>
+        )}
       </ScrollingContent>
     </IonPage>
   );

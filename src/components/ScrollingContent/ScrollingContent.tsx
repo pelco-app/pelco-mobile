@@ -2,6 +2,8 @@ import { Children, useEffect, useRef } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
 
+import "./ScrollingContent.scss";
+
 interface Props extends RouteComponentProps<any> {
   className?: string;
   scrollToTop: number;
@@ -21,7 +23,7 @@ export const ScrollingContent: React.FC<Props> = ({ className, title, scrollToTo
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen ref={ionContent} className={className}>
+      <IonContent fullscreen ref={ionContent} className={`scrolling-content ${className}`}>
         {Children.toArray(children)}
       </IonContent>
     </>

@@ -1,3 +1,44 @@
 .hidden {
   visibility: hidden;
 }
+
+.center-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.body-content {
+  width: 100%;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: revert;
+    font-weight: revert;
+  }
+
+  blockquote {
+    overflow: hidden;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    margin: 0;
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+    border-left: 5px solid #ccc;
+  }
+}
+
+.ion-page {
+  .card-content {
+    .item::part(native) {
+      padding: 0;
+    }
+  }
+}

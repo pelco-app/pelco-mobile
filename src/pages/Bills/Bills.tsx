@@ -60,7 +60,7 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
 
         {bills.loading && history.location.pathname === "/bills" ? (
           <SkeletonList count={10} hasHeader />
-        ) : (
+        ) : bills.all?.data?.length > 0 ? (
           <IonList>
             {groupByArray(bills.all?.data, "billingYear").map((group, index) => (
               <React.Fragment key={index}>
@@ -92,11 +92,15 @@ export const Bills: React.FC<Props> = ({ history, ...props }) => {
               </React.Fragment>
             ))}
           </IonList>
+        ) : (
+          <div className="center-screen">No bills found</div>
         )}
 
-        <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
-          <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
-        </IonInfiniteScroll>
+        {bills.all?.data?.length !== 0 && (
+          <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
+            <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
+          </IonInfiniteScroll>
+        )}
       </ScrollingContent>
     </IonPage>
   );

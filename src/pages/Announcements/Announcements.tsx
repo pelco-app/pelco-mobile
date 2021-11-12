@@ -59,7 +59,7 @@ export const Announcements: React.FC<Props> = ({ history, ...props }) => {
 
         {announcements.loading && history.location.pathname === "/announcements" ? (
           <SkeletonList count={10} />
-        ) : (
+        ) : announcements.all?.data?.length > 0 ? (
           <IonList>
             {announcements.all?.data?.map((announcementData: any, index: number) => (
               <IonItem
@@ -80,11 +80,15 @@ export const Announcements: React.FC<Props> = ({ history, ...props }) => {
               </IonItem>
             ))}
           </IonList>
+        ) : (
+          <div className="center-screen">No announcements found</div>
         )}
 
-        <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
-          <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
-        </IonInfiniteScroll>
+        {announcements.all?.data?.length !== 0 && (
+          <IonInfiniteScroll threshold="100px" ref={ionInfinite}>
+            <IonInfiniteScrollContent loading-spinner="dots"></IonInfiniteScrollContent>
+          </IonInfiniteScroll>
+        )}
       </ScrollingContent>
     </IonPage>
   );

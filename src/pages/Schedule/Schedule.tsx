@@ -90,7 +90,10 @@ export const Schedule: React.FC<Props> = ({ match }) => {
                 {schedules.loading ? (
                   <IonSkeletonText animated style={{ width: "50%" }} />
                 ) : (
-                  <div dangerouslySetInnerHTML={{ __html: schedules.item.content }}></div>
+                  <div
+                    className="body-content"
+                    dangerouslySetInnerHTML={{ __html: schedules.item.content }}
+                  ></div>
                 )}
               </IonItem>
             </IonCardContent>

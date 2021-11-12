@@ -1,3 +1,4 @@
+import { useIonRouter } from "@ionic/react";
 import { useEffect, useState } from "react";
 
 import { useNetworkStatus } from "utils/hooks";
@@ -5,6 +6,7 @@ import "./NetworkStatus.scss";
 
 export const NetworkStatus: React.FC = () => {
   const networkStatus = useNetworkStatus();
+  const ionRouter = useIonRouter();
   const [offline, setOffline] = useState<boolean>(false);
   const [delayer, setDelayer] = useState<any>();
 
@@ -15,7 +17,7 @@ export const NetworkStatus: React.FC = () => {
       clearTimeout(delayer);
       setOffline(true);
     }
-  }, [networkStatus.connected]);
+  }, [networkStatus.connected, ionRouter.routeInfo?.pathname]);
 
   return (
     <>

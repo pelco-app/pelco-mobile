@@ -83,7 +83,10 @@ export const Announcement: React.FC<Props> = ({ match }) => {
                 {announcements.loading ? (
                   <IonSkeletonText animated style={{ width: "50%" }} />
                 ) : (
-                  <div dangerouslySetInnerHTML={{ __html: announcements.item.content }}></div>
+                  <div
+                    className="body-content"
+                    dangerouslySetInnerHTML={{ __html: announcements.item.content }}
+                  ></div>
                 )}
               </IonItem>
             </IonCardContent>

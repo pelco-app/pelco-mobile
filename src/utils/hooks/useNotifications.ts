@@ -5,7 +5,14 @@ import {
   PushNotificationSchema,
   Token,
 } from "@capacitor/push-notifications";
-import { accountActions, billActions, deviceActions, useAppDispatch } from "states";
+import {
+  accountActions,
+  billActions,
+  scheduleActions,
+  announcementActions,
+  deviceActions,
+  useAppDispatch,
+} from "states";
 
 export const useNotifications = () => {
   const dispatch = useAppDispatch();
@@ -32,11 +39,11 @@ export const useNotifications = () => {
               break;
 
             case "announcements":
-              // dispatch(billActions.fetch());
+              dispatch(announcementActions.fetch());
               break;
 
             case "schedules":
-              // dispatch(billActions.fetch());
+              dispatch(scheduleActions.fetch());
               break;
             default:
               break;
