@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "834857491316",
+    "firebase_url": "https://pelco1-reminder-3340c-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "pelco1-reminder-3340c",
     "storage_bucket": "pelco1-reminder-3340c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:834857491316:android:704c1f1ad154f74f5baa21",
+        "mobilesdk_app_id": "1:834857491316:android:6b06a06989b9f3b05baa21",
         "android_client_info": {
           "package_name": "com.pelco1.app"
         }

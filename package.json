@@ -83,7 +83,7 @@
     "workbox-streams": "^5.1.4"
   },
   "devDependencies": {
-    "@capacitor/android": "3.2.3",
+    "@capacitor/android": "3.3.4",
     "@capacitor/cli": "3.2.2",
     "@capacitor/ios": "3.2.2",
     "cordova-res": "^0.15.3"
