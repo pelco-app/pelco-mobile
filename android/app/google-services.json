@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "437058216785",
-    "firebase_url": "https://pelco-reminder-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "pelco-reminder",
-    "storage_bucket": "pelco-reminder.appspot.com"
+    "project_number": "834857491316",
+    "project_id": "pelco1-reminder-3340c",
+    "storage_bucket": "pelco1-reminder-3340c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:437058216785:android:4552b1c89f5eb8af2de970",
+        "mobilesdk_app_id": "1:834857491316:android:704c1f1ad154f74f5baa21",
         "android_client_info": {
           "package_name": "com.pelco1.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "437058216785-k015i6ock69t6n31l4t1bvgqe8ic3pqi.apps.googleusercontent.com",
+          "client_id": "834857491316-9dl4qqdehl314ibi0uoh6dr6kgnetggk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBNeuww4qAc_Bk_44Xuielc7TTIERbuvno"
+          "current_key": "AIzaSyDIYZPT3NBvUzkCSGVdIsTKBMhQqNb4YZI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "437058216785-k015i6ock69t6n31l4t1bvgqe8ic3pqi.apps.googleusercontent.com",
+              "client_id": "834857491316-9dl4qqdehl314ibi0uoh6dr6kgnetggk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
